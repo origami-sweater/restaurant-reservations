@@ -1,2 +1,5 @@
-Where to declare state?
-npm start run:frontend
+issue with useEffect
+pushing new query, but refreshes
+async of state i think?
+
+npm run start:dev

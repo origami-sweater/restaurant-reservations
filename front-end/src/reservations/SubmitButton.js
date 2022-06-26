@@ -1,11 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { postReservation } from "../utils/api";
 import formatReservationDate from "../utils/format-reservation-date";
 import formatReservationTime from "../utils/format-reservation-time";
 
 function SubmitButton({ reservation, setReservation }){
-    //const history = useHistory();
-    //const { deckId, cardId }= useParams();
+    const history = useHistory();
+    //const {}= useParams();
 
     //New Reservation - handles push to server & validates form fields not null
     async function createReservation(newRes){
@@ -14,9 +15,9 @@ function SubmitButton({ reservation, setReservation }){
             const signal = abortController.signal;
             //api call to "POST"
             await postReservation(newRes, signal);
-            /*sends us to new deck's page
-            history.push(``)
-            history.go(0);*/ 
+            //sends us to new reservation's page
+            history.push(`/dashboard?date=${newRes.reservation_date}`)
+            history.go(0); 
         } catch(err) {
             console.log(err.name)
         };
@@ -40,6 +41,7 @@ function SubmitButton({ reservation, setReservation }){
                 reservation_time: reservation.reservation_time,
                 people: Number(reservation.people) 
             }
+            //makes sure date and time are formatted correctly for table
             formatReservationDate(newRes);
             formatReservationTime(newRes);
             createReservation(newRes);

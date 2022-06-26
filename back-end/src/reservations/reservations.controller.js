@@ -7,9 +7,8 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 
 //List 
 async function list(req, res) {
-  res.json({
-    data: [],
-  });
+  const data = res.locals.reservations;
+  res.json({ data });
 }
 
 //Create 
@@ -21,6 +20,19 @@ async function create(req, res){
 /**
  * Request validation functions
  */
+
+//Determines how to filter list view
+async function determineList(req, res, next){
+  if(req.query.date){
+    const reservations = await service.listByDate(req.query.date);
+    res.locals.reservations = reservations;
+    return next();
+  } else {
+    const reservations = await service.listByDate(req.date);
+    res.locals.reservations = reservations;
+    return next();
+  }
+}
 
 //First name
 function firstNameIsValid(req, res, next){
@@ -125,7 +137,7 @@ function peopleIsValid(req, res, next){
 }
 
 module.exports = {
-  list,
+  list: [asyncErrorBoundary(determineList), list],
   create: [
     firstNameIsValid,
     lastNameIsValid, 
