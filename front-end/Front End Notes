@@ -1,5 +1,12 @@
-issue with useEffect
-pushing new query, but refreshes
-async of state i think?
+think about how to figure out tuesdays...
+
+do i want to change window alerts to danger class?
 
 npm run start:dev
+
+Date problem - 2=tues
+const thisDate = new Date(today())
+const date = thisDate.getDay()
+In repl, format =2, but it's logging as 1
+
+ask about day of week issue

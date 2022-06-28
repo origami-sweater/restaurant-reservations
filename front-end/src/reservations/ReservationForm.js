@@ -3,7 +3,7 @@ import handleFormChange from "../utils/handleFormChange";
 import CancelButton from "./CancelButton";
 import SubmitButton from "./SubmitButton";
 
-function ReservationForm({ reservation, setReservation }){
+function ReservationForm({ reservation, setReservation, setResError }){
 
     return(
         <form>
@@ -69,7 +69,7 @@ function ReservationForm({ reservation, setReservation }){
                     value={reservation.people}
                 />
             </label>
-            <SubmitButton reservation={reservation} setReservation={setReservation}/>
+            <SubmitButton reservation={reservation} setReservation={setReservation} setResError={setResError}/>
             <CancelButton />
         </form>
     );

@@ -21,7 +21,7 @@ async function create(req, res){
  * Request validation functions
  */
 
-//Determines how to filter list view
+//Determines how to filter dashboard list view
 async function determineList(req, res, next){
   if(req.query.date){
     const reservations = await service.listByDate(req.query.date);
@@ -81,12 +81,12 @@ function mobileNumberIsValid(req, res, next){
   };
 }
 
-//Reservation date
+//Reservation date format validation
 function dateIsValid(req, res, next){
   const { data: { reservation_date } = {} } = req.body;
   /*List of valid date characters:*/
   const regex = /^\d{4}-\d{2}-\d{2}$/;
-
+  /*validates date characters:*/
   if (
     reservation_date 
     && reservation_date.length === 10
@@ -97,12 +97,44 @@ function dateIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Reservation must have valid reservation date in yyyy-mm-dd format."
+      message: "Reservation must have valid reservation date."
     });
   };
 }
 
-//Reservation time
+//No reservations on Tuesdays - for some reason days of week 6 -sunday, 0 - monday, etc...
+function noTuesdays(req, res, next){
+  const { data: { reservation_date } = {} } = req.body;
+  const reformatDate = new Date(reservation_date);
+  const dayOfWeek = reformatDate.getDay();
+  if(dayOfWeek !== 1){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "The restaurant is closed on Tuesdays. Please choose a different day."
+    });
+  };
+}
+
+//No reservations in past 
+function futureTimesOnly(req, res, next){
+  const { data: { reservation_date, reservation_time } = {} } = req.body;
+  const resDateTime = reservation_date.concat(" ", reservation_time,":00");
+  const reformatDate = new Date(resDateTime).valueOf();
+  const now = new Date().valueOf();
+
+  if(reformatDate > now){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "The reservation cannot be in the past."
+    });
+  };
+}
+
+//Reservation time format validation
 function timeIsValid(req, res, next){
   const { data: { reservation_time } = {} } = req.body;
   /*List of valid time characters:*/
@@ -118,9 +150,30 @@ function timeIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Reservation must have valid reservation time in 00:00 format."
+      message: "Reservation must have valid reservation time."
     });
   };
+}
+
+//Only reservations during reservation hours
+function isReservableTime(req, res, next){
+  const { data: { reservation_time } = {} } = req.body;
+  reformatTime = reservation_time.replace(":", "");
+  numberTime = Number(reformatTime);
+  console.log(reservation_time, reformatTime, numberTime);
+  if(numberTime > 2130 && numberTime <= 2230){
+    next({
+      status: 400,
+      message: "Reservation time cannot be within an hour of closing."
+    });
+  } else if(numberTime < 1030 || numberTime > 2230){
+    next({
+      status: 400,
+      message: "Reservation time must be between 10:30AM & 9:30PM."
+    });
+  } else {
+    next();
+  }
 }
 
 //People (attendees)
@@ -143,6 +196,9 @@ module.exports = {
     lastNameIsValid, 
     mobileNumberIsValid,
     dateIsValid,
+    futureTimesOnly,
+    noTuesdays,
+    isReservableTime,
     timeIsValid,
     peopleIsValid,
     asyncErrorBoundary(create)

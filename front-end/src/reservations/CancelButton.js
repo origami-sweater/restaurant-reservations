@@ -1,18 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
-//import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 
 //Currently only set up for POST - Create Reservation
 function CancelButton() {
-    //const {} = useParams();
+    const history = useHistory();
 
-    /*if (PARAM) {
-        return (
-            <Link to={`/reservations/${PARAM}`} className="btn btn-secondary">Cancel</Link>
-        )
-    } else {*/
+    const handleCancel = (event) => {
+        event.preventDefault();
+        history.goBack();
+    }
+
     return (
-        <Link to="/" className="btn btn-secondary">Cancel</Link>
+        <button type="cancel" className="btn btn-primary ml-2" onClick={handleCancel}>Cancel</button>
     );
 }
 

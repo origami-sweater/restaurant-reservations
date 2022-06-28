@@ -4,29 +4,29 @@ import { postReservation } from "../utils/api";
 import formatReservationDate from "../utils/format-reservation-date";
 import formatReservationTime from "../utils/format-reservation-time";
 
-function SubmitButton({ reservation, setReservation }){
+function SubmitButton({ reservation, setReservation, setResError }){
     const history = useHistory();
-    //const {}= useParams();
 
-    //New Reservation - handles push to server & validates form fields not null
+    //New Reservation - handles API POST
     async function createReservation(newRes){
         const abortController = new AbortController();
         try {
             const signal = abortController.signal;
-            //api call to "POST"
             await postReservation(newRes, signal);
             //sends us to new reservation's page
             history.push(`/dashboard?date=${newRes.reservation_date}`)
             history.go(0); 
         } catch(err) {
-            console.log(err.name)
+            console.log(err.name);
+            setResError(err);
         };
     };
-
 
     //POST ONLY CURRENTLY - reformats reservation saved to state to match table data
     const handleSubmit = (event) => {
         event.preventDefault();
+        //Reset error state
+        setResError(null);
         //POST - Create Reservation behavior
         if(!reservation.reservation_date){
             window.alert("A reservation date must be entered.");
@@ -41,11 +41,12 @@ function SubmitButton({ reservation, setReservation }){
                 reservation_time: reservation.reservation_time,
                 people: Number(reservation.people) 
             }
-            //makes sure date and time are formatted correctly for table
+            //Makes sure date and time are formatted correctly for table
             formatReservationDate(newRes);
             formatReservationTime(newRes);
+            //API call
             createReservation(newRes);
-            //resets form states
+            //Resets form state
             setReservation({
                 first_name: "",
                 last_name: "",
