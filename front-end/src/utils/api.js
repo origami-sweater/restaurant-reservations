@@ -52,8 +52,11 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
+
+//Reservation API calls
+
 /**
- * Retrieves all existing reservation.
+ * Retrieves all existing reservations.
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
@@ -68,6 +71,12 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
+/**
+ * Creates new reservation based on reservation state
+ * @param newRes 
+ * the new reservation
+ */
+
 export async function postReservation(newRes, signal) {
   const url = `${API_BASE_URL}/reservations/new`;
   const options = {
@@ -77,4 +86,23 @@ export async function postReservation(newRes, signal) {
     signal,
   };
   return await fetchJson(url, options, newRes);
+}
+
+
+//Table API calls
+
+/**
+ * Creates new table based on table state
+ * @param {*} newTable 
+ * the new table
+ */
+export async function postTable(newTable, signal) {
+  const url = `${API_BASE_URL}/tables/new`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: newTable }),
+    signal,
+  };
+  return await fetchJson(url, options, newTable);
 }

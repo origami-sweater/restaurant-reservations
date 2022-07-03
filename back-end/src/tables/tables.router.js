@@ -9,7 +9,7 @@
  const methodNotAllowed = require("../errors/methodNotAllowed");
  
  router.route("/new")
-     //.post(controller.create)
+     .post(controller.create)
      .all(methodNotAllowed);
  
  router.route("/")

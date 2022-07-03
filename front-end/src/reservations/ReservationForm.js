@@ -1,7 +1,7 @@
 import React from "react";
 import handleFormChange from "../utils/handleFormChange";
-import CancelButton from "./CancelButton";
-import SubmitButton from "./SubmitButton";
+import CancelButton from "../utils/CancelButton";
+import SubmitReservationButton from "./SubmitReservationButton";
 
 function ReservationForm({ reservation, setReservation, setResError }){
 
@@ -69,7 +69,7 @@ function ReservationForm({ reservation, setReservation, setResError }){
                     value={reservation.people}
                 />
             </label>
-            <SubmitButton reservation={reservation} setReservation={setReservation} setResError={setResError}/>
+            <SubmitReservationButton reservation={reservation} setReservation={setReservation} setResError={setResError}/>
             <CancelButton />
         </form>
     );

@@ -2,22 +2,21 @@ const knex = require("../db/connection");
 const tableName = "tables";
 
 //List
-function listByDate(reservation_date){
+function list(){
     return knex(tableName)
         .select("*")
-        .where({ reservation_date })
-        .orderBy("reservation_time")
+        .orderBy("table_name");
 }
 
 //Create
-function create(newReservation){
+function create(newTable){
     return knex(tableName)
-        .insert(newReservation)
+        .insert(newTable)
         .returning("*")
         .then((inserted) => inserted[0]);
 }
 
 module.exports = {
-    listByDate,
+    list,
     create,
 }

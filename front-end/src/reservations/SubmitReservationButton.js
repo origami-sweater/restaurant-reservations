@@ -4,7 +4,7 @@ import { postReservation } from "../utils/api";
 import formatReservationDate from "../utils/format-reservation-date";
 import formatReservationTime from "../utils/format-reservation-time";
 
-function SubmitButton({ reservation, setReservation, setResError }){
+function SubmitReservationButton({ reservation, setReservation, setResError }){
     const history = useHistory();
 
     //New Reservation - handles API POST
@@ -63,4 +63,4 @@ function SubmitButton({ reservation, setReservation, setResError }){
     );
 }
 
-export default SubmitButton;
+export default SubmitReservationButton;

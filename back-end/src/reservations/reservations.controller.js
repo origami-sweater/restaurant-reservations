@@ -6,7 +6,7 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
  */
 
 //List 
-async function list(req, res) {
+function list(req, res) {
   const data = res.locals.reservations;
   res.json({ data });
 }
