@@ -1,13 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import TableForm from "./TableForm";
 import ErrorAlert from "../layout/ErrorAlert";
 
-function NewTable(){
-    const [tableError, setTableError] = useState(null);
-    const [table, setTable] = useState({
-            table_name: "",
-            capacity: 1
-    });
+function NewTable({ table, setTable, tableError, setTableError }){
 
     return(
         <>

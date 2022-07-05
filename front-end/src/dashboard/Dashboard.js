@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import DateButtons from "./DateButtons";
+import FormatReservation from "./FormatReservation";
+import FormatTable from "./FormatTable";
 import useQuery from "../utils/useQuery";
-import { today } from "../utils/date-time";
+import { formatAsDate, today } from "../utils/date-time";
+import { listReservations, listTables } from "../utils/api";
 
 /**
  * Defines the dashboard page.
@@ -11,12 +13,12 @@ import { today } from "../utils/date-time";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date, setDate }) {
+function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesError, setReservation }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-
   const query = useQuery();
 
+  //useEffect hooks 
   useEffect(() => {
     const dateQuery = query.get("date")
     if(dateQuery){
@@ -26,26 +28,44 @@ function Dashboard({ date, setDate }) {
     };
   });
 
-  useEffect(loadDashboard, [date]); //2 useEffects???
+  useEffect(loadDashboard, [date])
 
-  function loadDashboard() {
+  //sets dashboard's viewable reservations by date determined from URL
+  function loadDashboard(){
     const abortController = new AbortController();
     setReservationsError(null);
+    setTablesError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    listTables(abortController.signal)
+      .then(setTables)
+      .catch(setTablesError);
     return () => abortController.abort();
-  }
+  };
+
+  //functions formatting displayed content
+  const showReservations = reservations.map((res) => {
+    return FormatReservation(res, { setReservation });
+  });
+  const showTables = tables.map((table) => {
+    return FormatTable(table);
+  });
+  const reformatDate = formatAsDate(date);
+
+
 
   return (
     <main>
       <h1>Dashboard</h1>
       <DateButtons date={date} setDate={setDate}/>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">{`Reservations for ${date}`}</h4>
+        <h4 className="mb-0">{`Reservations for ${reformatDate}`}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
+      <ErrorAlert error={tablesError} />
+      <div className="container fluid">{showReservations}</div>
+      <div className="container fluid">{showTables}</div>
     </main>
   );
 }

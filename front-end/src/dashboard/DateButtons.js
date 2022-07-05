@@ -22,9 +22,9 @@ function DateButtons({ date, setDate }){
 
     return(
         <>
-            <button type="previous" className="btn btn-primary ml-2" onClick={onPrevious}>Previous</button>
+            <button type="previous_day" className="btn btn-primary ml-2" onClick={onPrevious}>Previous Day</button>
             <button type="today" className="btn btn-primary ml-2" onClick={onToday}>Today</button>
-            <button type="next" className="btn btn-primary ml-2" onClick={onNext}>Next</button>
+            <button type="next_day" className="btn btn-primary ml-2" onClick={onNext}>Next Day</button>
         </>
     )
 }

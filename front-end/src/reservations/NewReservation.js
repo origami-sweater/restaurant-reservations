@@ -1,17 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import ReservationForm from "./ReservationForm";
 import ErrorAlert from "../layout/ErrorAlert";
 
-function NewReservation(){
-    const [resError, setResError] = useState(null);
-    const [reservation, setReservation] = useState({
-            first_name: "",
-            last_name: "",
-            mobile_number: "",
-            reservation_date: "",
-            reservation_time: "",
-            people: 1
-    });
+function NewReservation({ reservation, setReservation, resError, setResError }){
 
     return(
         <>

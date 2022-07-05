@@ -16,7 +16,24 @@ function create(newTable){
         .then((inserted) => inserted[0]);
 }
 
+//Read
+function read(table_id){
+    return knex(tableName)
+        .where({ table_id })
+        .first();
+}
+
+//Update
+function update(updatedTable){
+    return knex(tableName)
+        .where({ table_id: updatedTable.table_id })
+        .update(updatedTable, "*")
+        .then((updated) => updated[0]);
+}
+
 module.exports = {
     list,
     create,
+    read,
+    update,
 }

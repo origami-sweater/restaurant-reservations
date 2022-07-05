@@ -17,6 +17,18 @@ async function create(req, res){
   res.status(201).json({ data });
 }
 
+//Update
+async function update(req, res){
+  const { reservation_id } = req.body.data;
+  const table = res.locals.table;
+  const updatedTable = {
+      ...table,
+      reservation_id: reservation_id,
+    };
+  const data = await service.update(updatedTable);
+  res.json({ data });
+}
+
 /**
  * Request validation functions
  */
@@ -47,7 +59,23 @@ function capacityIsValid(req, res, next){
   };
 }
 
+//Table exists - searches table for table matching url param table_id
+async function tableExists(req, res, next){
+  const table_id = req.params.table_id;
+  const foundTable = await service.read(table_id);
+  if (foundTable){
+      res.locals.table = foundTable;
+      next();
+  } else {
+    next({
+      status: 404,
+      message: `Table does not exist: ${table_id}`
+    });
+  };
+}
+
 module.exports = {
     list: [asyncErrorBoundary(list)],
     create: [tableNameIsValid, capacityIsValid, asyncErrorBoundary(create)],
+    update: [asyncErrorBoundary(tableExists), asyncErrorBoundary(update)]
 };

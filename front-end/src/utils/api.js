@@ -106,3 +106,14 @@ export async function postTable(newTable, signal) {
   };
   return await fetchJson(url, options, newTable);
 }
+
+/**
+ * Retrieves all existing tables.
+ * @returns {Promise<[table]>}
+ *  a promise that resolves to a possibly empty array of table saved in the database.
+ */
+
+ export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  return await fetchJson(url, { headers, signal }, []);
+}

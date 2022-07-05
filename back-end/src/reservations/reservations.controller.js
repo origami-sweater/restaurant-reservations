@@ -17,6 +17,12 @@ async function create(req, res){
   res.status(201).json({ data });
 }
 
+//Read
+function read(req, res){
+  const data = res.locals.reservation;
+  res.json({ data });
+}
+
 /**
  * Request validation functions
  */
@@ -189,6 +195,21 @@ function peopleIsValid(req, res, next){
   };
 }
 
+//Reservation exists - searches table for reservation matching url param reservation_id
+async function reservationExists(req, res, next){
+  const reservation_id = req.params.reservation_id;
+  const foundReservation = await service.read(reservation_id);
+  if (foundReservation){
+      res.locals.reservation = foundReservation;
+      next();
+  } else {
+    next({
+      status: 404,
+      message: `Reservation does not exist : ${reservation_id}`
+    });
+  };
+}
+
 module.exports = {
   list: [asyncErrorBoundary(determineList), list],
   create: [
@@ -203,4 +224,5 @@ module.exports = {
     peopleIsValid,
     asyncErrorBoundary(create)
   ],
+  read: [asyncErrorBoundary(reservationExists), read],
 };
