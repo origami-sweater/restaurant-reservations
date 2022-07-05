@@ -35,7 +35,8 @@ function Routes() {
   const [tablesError, setTablesError] = useState(null);
   const [table, setTable] = useState({
     table_name: "",
-    capacity: 1
+    capacity: 1,
+    reservation_id: null
   });
   const [tableError, setTableError] = useState(null);
 
@@ -52,6 +53,9 @@ function Routes() {
           tableError={tableError}
           setTableError={setTableError}
           reservation={reservation}
+          setReservation={setReservation}
+          resError={resError} 
+          setResError={setResError}
           tables={tables}
           setTables={setTables}
           tablesError={tablesError}
@@ -88,7 +92,6 @@ function Routes() {
           setTables={setTables}
           tablesError={tablesError}
           setTablesError={setTablesError}
-          setReservation={setReservation}
         />
       </Route>
       <Route>
