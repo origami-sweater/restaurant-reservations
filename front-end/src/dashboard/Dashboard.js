@@ -45,11 +45,18 @@ function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesErr
   };
 
   //functions formatting displayed content
-  const showReservations = reservations.map((res) => {
-    return FormatReservation(res);
+  const showReservations = reservations.map((reservation) => {
+    const { first_name, last_name, people, reservation_id, reservation_time } = reservation;
+    return <FormatReservation 
+      first_name={first_name}
+      last_name={last_name}
+      people={people}
+      reservation_id={reservation_id}
+      reservation_time={reservation_time} 
+    />;
   });
   const showTables = tables.map((table) => {
-    return FormatTable(table);
+    return <FormatTable table={table}/>;
   });
   const reformatDate = formatAsDate(date);
 

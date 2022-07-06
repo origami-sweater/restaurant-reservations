@@ -12,3 +12,4 @@ ask about day of week issue
 issues with dashboard loads - fetch fails, insufficient resources, constant flickering
 
 need to evaluate tableExists- can we rely on reqbody data instead of params
+{JSON.stringify(reservation)}

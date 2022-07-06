@@ -1,18 +1,22 @@
 import React from "react";
-import { formatAsTime } from "../utils/date-time";
+import { useLocation } from "react-router";
+//import { formatAsTime } from "../utils/date-time";
 import SeatButton from "./SeatButton";
 
-function FormatReservation(res){
-  const { first_name, last_name, people, reservation_id, reservation_time } = res;
+function FormatReservation({ first_name, last_name, people, reservation_id, reservation_time, reservation }){
+  //const reformatTime = formatAsTime(reservation_time);
+  const location = useLocation();
+  let onSeatPage = false;
 
-  const reformatTime = formatAsTime(reservation_time);
+  if(location.pathname == `/reservations/${reservation_id}/seat`) onSeatPage = true;
 
   return(
   <div key={reservation_id}>
       <h6>{first_name} {last_name}</h6>
-      <p>{reformatTime}</p>
+      <p>{reservation_time}</p>
       <p>Party Size: {people}</p>
-      <SeatButton reservation_id={reservation_id}/>
+      {console.log(onSeatPage)}
+      {!onSeatPage && <SeatButton reservation_id={reservation_id}/>}
   </div>
   );
 }
