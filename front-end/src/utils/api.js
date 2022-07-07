@@ -114,9 +114,11 @@ export async function postTable(newTable, signal) {
 }
 
 /**
- * Updates table based on table state
- * @param {*} updatedTable 
- * the new table
+ * Updates table reservation_id 
+ * @param {*} table_id
+ * the id of the table to be seated
+ * @param reservation_id
+ * the id of the reservation to be linked to the table
  */
  export async function seatTable(table_id, reservation_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
@@ -127,6 +129,21 @@ export async function postTable(newTable, signal) {
     signal,
   };
   return await fetchJson(url, options, {});
+}
+
+/**
+ * Removes table reservation_id 
+ * @param {*} table_id
+ * the id of the table to be marked available
+ */
+ export async function unseatTable(table_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "DELETE",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
 }
 
 /**

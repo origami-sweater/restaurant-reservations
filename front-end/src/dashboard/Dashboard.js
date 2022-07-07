@@ -13,7 +13,7 @@ import { listReservations, listTables } from "../utils/api";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesError }) {
+function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesError, tableError, setTableError }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const query = useQuery();
@@ -56,7 +56,13 @@ function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesErr
     />;
   });
   const showTables = tables.map((table) => {
-    return <FormatTable table={table}/>;
+    return <FormatTable 
+        table={table} 
+        setTables={setTables} 
+        tableError={tableError}
+        setTableError={setTableError} 
+        setTablesError={setTablesError}
+      />;
   });
   const reformatDate = formatAsDate(date);
 
@@ -71,6 +77,7 @@ function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesErr
       </div>
       <ErrorAlert error={reservationsError} />
       <ErrorAlert error={tablesError} />
+      <ErrorAlert error={tableError} />
       <div className="container fluid">{showReservations}</div>
       <div className="container fluid">{showTables}</div>
     </main>

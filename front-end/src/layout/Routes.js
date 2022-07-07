@@ -93,6 +93,8 @@ function Routes() {
           setTables={setTables}
           tablesError={tablesError}
           setTablesError={setTablesError}
+          tableError={tableError}
+          setTableError={setTableError}
         />
       </Route>
       <Route>
