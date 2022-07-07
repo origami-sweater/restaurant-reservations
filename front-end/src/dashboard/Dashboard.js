@@ -20,7 +20,7 @@ function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesErr
 
   //useEffect hooks 
   useEffect(() => {
-    const dateQuery = query.get("date")
+    const dateQuery = query.get("date");
     if(dateQuery){
       setDate(dateQuery);
     } else {
@@ -28,7 +28,7 @@ function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesErr
     };
   });
 
-  useEffect(loadDashboard, [date])
+  useEffect(loadDashboard, [date, setTables, setTablesError])
 
   //sets dashboard's viewable reservations by date determined from URL
   function loadDashboard(){

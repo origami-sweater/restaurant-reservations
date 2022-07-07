@@ -1,5 +1,6 @@
 const service = require("./tables.service"); 
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
+const reservationsService = require("../reservations/reservations.service");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 /**
  * CRUD functions
@@ -46,6 +47,19 @@ function tableNameIsValid(req, res, next){
   };
 }
 
+//Reservation_id
+function tableIsOpen(req, res, next){
+  const { reservation_id } = res.locals.table;
+  if(reservation_id === null){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "The selected table is already occupied."
+    });
+  }
+}
+
 //Capacity
 function capacityIsValid(req, res, next){
   const { data: { capacity } = {} } = req.body;
@@ -57,6 +71,19 @@ function capacityIsValid(req, res, next){
       message: "Table capacity must be a number that is greater than 0."
     });
   };
+}
+
+function capacityGreaterThanPeople(req, res, next){
+  const { capacity } = res.locals.table;
+  const { people } = res.locals.reservation;
+  if(capacity >= people){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "The selected table cannot seat the whole party."
+    });
+  }
 }
 
 //Table exists - searches table for table matching url param table_id
@@ -74,8 +101,29 @@ async function tableExists(req, res, next){
   };
 }
 
+//Reservation exists - makes sure reservation exists prior to seating
+async function reservationExists(req, res, next){
+  const { reservation_id } = req.body.data;
+  const foundReservation = await reservationsService.read(reservation_id);
+  if (foundReservation){
+      res.locals.reservation = foundReservation;
+      next();
+  } else {
+    next({
+      status: 404,
+      message: `Reservation does not exist : ${reservation_id}`
+    });
+  };
+}
+
 module.exports = {
     list: [asyncErrorBoundary(list)],
     create: [tableNameIsValid, capacityIsValid, asyncErrorBoundary(create)],
-    update: [asyncErrorBoundary(tableExists), asyncErrorBoundary(update)]
+    update: [
+      asyncErrorBoundary(tableExists), 
+      asyncErrorBoundary(reservationExists),
+      tableIsOpen,
+      capacityGreaterThanPeople,
+      asyncErrorBoundary(update)
+    ]
 };

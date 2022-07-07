@@ -114,6 +114,22 @@ export async function postTable(newTable, signal) {
 }
 
 /**
+ * Updates table based on table state
+ * @param {*} updatedTable 
+ * the new table
+ */
+ export async function seatTable(table_id, reservation_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { reservation_id: reservation_id } }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
+/**
  * Retrieves all existing tables.
  * @returns {Promise<[table]>}
  *  a promise that resolves to a possibly empty array of table saved in the database.

@@ -1,9 +1,15 @@
 import React from "react";
-import { useHistory } from "react-router";
-import { postTable } from "../utils/api";
+import { useHistory, useLocation } from "react-router";
+import { postTable, seatTable } from "../utils/api";
 
 function SubmitTableButton({ table, setTable, setTableError, reservation }){
     const history = useHistory();
+    const location = useLocation();
+    const reservation_id = reservation.reservation_id;
+    let onSeatPage = false;
+
+    //onSeatPage boolean decides whether button should create a table or update a table
+    if(location.pathname === `/reservations/${reservation_id}/seat`) onSeatPage = true;
 
     //New Table - handles API POST
     async function createTable(newTable){
@@ -20,12 +26,12 @@ function SubmitTableButton({ table, setTable, setTableError, reservation }){
         };
     };
 
-    /*//Update table - handles API PUT
-    async function updateTable(resTable){
+    //Update table - handles API PUT
+    async function updateTable(table_id, reservation_id){
         const abortController = new AbortController();
         try {
             const signal = abortController.signal;
-            //await postTable(resTable, signal);
+            await seatTable(table_id, reservation_id, signal);
             //sends us to dashboard
             history.push(`/dashboard`)
             history.go(0); 
@@ -33,25 +39,34 @@ function SubmitTableButton({ table, setTable, setTableError, reservation }){
             console.log(err.name);
             setTableError(err);
         };
-    };*/
+    };
 
-    //POST ONLY CURRENTLY 
+    //POST & PUT submit event
     const handleSubmit = (event) => {
         event.preventDefault();
         //Reset error state
         setTableError(null);
 
-        //POST - Create Table behavior
-        const newTable = {
-            table_name: table.table_name,
-            capacity: Number(table.capacity) 
+        if(onSeatPage === false){
+            //POST - Create Table behavior
+            const newTable = {
+                table_name: table.table_name,
+                capacity: Number(table.capacity) 
+            };
+            //API call
+            createTable(newTable);
+        } else {
+            //PUT - Update Table behavior
+            const table_id = table.table_id;
+            //API call
+            updateTable(table_id, reservation_id);
         };
-        //API call
-        createTable(newTable);
-        //Resets form state
+        //Resets table state
         setTable({
+            table_id: null,
             table_name: "",
-            capacity: 1
+            capacity: 1,
+            reservation_id: null
         });
     };
 

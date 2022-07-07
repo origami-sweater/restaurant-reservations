@@ -34,6 +34,7 @@ function Routes() {
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
   const [table, setTable] = useState({
+    table_id: null,
     table_name: "",
     capacity: 1,
     reservation_id: null

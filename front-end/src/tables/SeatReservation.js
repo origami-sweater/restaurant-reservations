@@ -21,7 +21,7 @@ function SeatReservation({
  }){
     const { reservation_id } = useParams();
 
-    useEffect(loadSeats, [reservation_id]);
+    useEffect(loadSeats, [reservation_id, setResError, setReservation, setTables, setTablesError]);
 
     function loadSeats(){
         const abortController = new AbortController();
@@ -39,14 +39,25 @@ function SeatReservation({
     };
 
     const tableOptions = tables.map((table) => {
-        if(Number(table.capacity) >= Number(reservation.people)){
+        if(Number(table.capacity) >= Number(reservation.people) && table.reservation_id == null){
             return(
-                <option key={table.table_id}>
-                    {table.table_name} - {table.table_capacity}
+                <option key={table.table_id} value={table.table_id}>
+                    {table.table_name} - {table.capacity}
                 </option>
             );
+        } else {
+            return null;
         };
     });
+
+    const onTableSelect = ({ target }) =>{
+        setTable({
+            table_id: target.value,
+            table_name: "",
+            capacity: 1,
+            reservation_id: null
+        });
+    };
 
     return(
         <>
@@ -57,8 +68,8 @@ function SeatReservation({
                 reservation_id={reservation_id}
                 reservation_time={reservation.reservation_time} 
             />
-            <select name="table_id">
-                <option selected>Select Table</option>
+            <select name="table_id" onChange={onTableSelect}>
+                <option default>Select Table</option>
                 {tableOptions}
             </select>
             <SubmitTableButton 
