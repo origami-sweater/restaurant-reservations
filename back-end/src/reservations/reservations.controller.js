@@ -48,7 +48,7 @@ function firstNameIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Reservation must have first name."
+      message: "Reservation must have first_name."
     });
   };
 }
@@ -61,7 +61,7 @@ function lastNameIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Reservation must have last name."
+      message: "Reservation must have last_name."
     });
   };
 }
@@ -82,7 +82,7 @@ function mobileNumberIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Reservation must have valid mobile number."
+      message: "Reservation must have valid mobile_number."
     });
   };
 }
@@ -103,7 +103,7 @@ function dateIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Reservation must have valid reservation date."
+      message: "Reservation must have valid reservation_date."
     });
   };
 }
@@ -135,7 +135,7 @@ function futureTimesOnly(req, res, next){
   } else {
     next({
       status: 400,
-      message: "The reservation cannot be in the past."
+      message: "The reservation_time must be in the future."
     });
   };
 }
@@ -156,7 +156,7 @@ function timeIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Reservation must have valid reservation time."
+      message: "Reservation must have valid reservation_time."
     });
   };
 }

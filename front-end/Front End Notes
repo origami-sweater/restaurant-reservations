@@ -13,3 +13,5 @@ issues with dashboard loads - fetch fails, insufficient resources, constant flic
 
 need to evaluate tableExists- can we rely on reqbody data instead of params
 {JSON.stringify(reservation)}
+
+issue with error message for delete on dashboard refreshing

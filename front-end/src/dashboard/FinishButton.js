@@ -1,8 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { unseatTable, listTables } from "../utils/api";
 
 function FinishButton({ table, setTables, tableError, setTableError, setTablesError }){
     const { table_id } = table;
+    const history = useHistory();
 
     const endReservation = () => {
         const abortController = new AbortController();
@@ -10,10 +12,12 @@ function FinishButton({ table, setTables, tableError, setTableError, setTablesEr
         setTablesError(null);
         unseatTable(table_id, abortController.signal)
             .catch(setTableError);
-        listTables(abortController.signal)
-            .then(setTables)
-            //.then(window.location.reload(true))
-            .catch(setTablesError);
+        if(tableError === null){
+            listTables(abortController.signal)
+                .then(setTables)
+                .then(() => history.go(0))
+                .catch(setTablesError);
+        };
         return () => abortController.abort();
     };
 
@@ -21,7 +25,6 @@ function FinishButton({ table, setTables, tableError, setTableError, setTablesEr
         event.preventDefault();
         if(window.confirm("Is the table ready to seat new guests? This cannot be undone.") === true){
             endReservation();
-            console.log(tableError)
         };
     };
 

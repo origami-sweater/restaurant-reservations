@@ -30,9 +30,38 @@ async function update(req, res){
   res.json({ data });
 }
 
+//Delete - clears out reservation_id fromt able
+async function unseat(req, res){
+  const table = res.locals.table; 
+  const unseatedTable = {
+    ...table,
+    reservation_id: null
+  };
+  await service.update(unseatedTable);
+  res.json({});
+}
+
 /**
  * Request validation functions
  */
+
+//Valid request - makes sure request data required exists
+function isValidRequest(req, res, next){
+  const { data } = req.body;
+  if(!data){
+    next({
+      status: 400,
+      message: "The request must contain data."
+    });
+  } else if(!data.reservation_id){
+    next({
+      status: 400,
+      message: "The request must have a reservation_id"
+    });
+  } else {
+    next();
+  };
+}
 
 //Table name
 function tableNameIsValid(req, res, next){
@@ -42,22 +71,9 @@ function tableNameIsValid(req, res, next){
   } else {
     next({
       status: 400,
-      message: "Table must have a name with at least two characters."
+      message: "The table_name must be at least two characters."
     });
   };
-}
-
-//Reservation_id
-function tableIsOpen(req, res, next){
-  const { reservation_id } = res.locals.table;
-  if(reservation_id === null){
-    next();
-  } else {
-    next({
-      status: 400,
-      message: "The selected table is already occupied."
-    });
-  }
 }
 
 //Capacity
@@ -81,7 +97,7 @@ function capacityGreaterThanPeople(req, res, next){
   } else {
     next({
       status: 400,
-      message: "The selected table cannot seat the whole party."
+      message: "The selected table's capacity is less than the number of people."
     });
   }
 }
@@ -97,6 +113,32 @@ async function tableExists(req, res, next){
     next({
       status: 404,
       message: `Table does not exist: ${table_id}`
+    });
+  };
+}
+
+
+//Reservation_id
+function tableIsOpen(req, res, next){
+  const { reservation_id } = res.locals.table;
+  if(reservation_id === null){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "The selected table is already occupied."
+    });
+  };
+}
+
+function tableIsOccupied(req, res, next){
+  const { reservation_id } = res.locals.table;
+  if(reservation_id !== null){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "The selected table is not occupied."
     });
   };
 }
@@ -120,10 +162,12 @@ module.exports = {
     list: [asyncErrorBoundary(list)],
     create: [tableNameIsValid, capacityIsValid, asyncErrorBoundary(create)],
     update: [
+      isValidRequest,
       asyncErrorBoundary(tableExists), 
       asyncErrorBoundary(reservationExists),
       tableIsOpen,
       capacityGreaterThanPeople,
       asyncErrorBoundary(update)
-    ]
+    ],
+    unseat: [asyncErrorBoundary(tableExists), tableIsOccupied, asyncErrorBoundary(unseat)],
 };

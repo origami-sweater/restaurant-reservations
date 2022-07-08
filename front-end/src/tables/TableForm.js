@@ -10,9 +10,9 @@ function TableForm({ table, setTable, setTableError }){
             <label htmlFor="table_name">
                 Table Name:
                 <input
+                    name="table_name"
                     type="text"
                     id="table_name"
-                    name="table_name"
                     onChange={({target}) => handleFormChange({target, table, setTable})}
                     value={table.table_name}
                 />
@@ -20,9 +20,9 @@ function TableForm({ table, setTable, setTableError }){
             <label htmlFor="capacity">
                 Capacity:
                 <input
-                    type="text"
-                    id="capacity"
                     name="capacity"
+                    type="text"
+                    id="capacity" 
                     onChange={({target}) => handleFormChange({target, table, setTable})}
                     value={table.capacity}
                 />

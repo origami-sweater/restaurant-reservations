@@ -78,7 +78,7 @@ export async function listReservations(params, signal) {
  */
 
 export async function postReservation(newRes, signal) {
-  const url = `${API_BASE_URL}/reservations/new`;
+  const url = `${API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
     headers,
@@ -103,7 +103,7 @@ export async function readReservation(reservation_id, signal) {
  * the new table
  */
 export async function postTable(newTable, signal) {
-  const url = `${API_BASE_URL}/tables/new`;
+  const url = `${API_BASE_URL}/tables`;
   const options = {
     method: "POST",
     headers,
