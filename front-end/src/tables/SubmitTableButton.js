@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory, useLocation, useParams } from "react-router";
-import { postTable, seatTable, updatenewStatus } from "../utils/api";
+import { postTable, seatTable } from "../utils/api";
 
 function SubmitTableButton({ table, setTable, setTableError }){
     const history = useHistory();
@@ -32,22 +32,17 @@ function SubmitTableButton({ table, setTable, setTableError }){
     //POST & PUT submit event
     const handleSubmit = (event) => {
         event.preventDefault();
-        //Reset error state
-        setTableError(null);
-
         if(onSeatPage === false && table.table_name !== null && Number(table.capacity) > 0){
             //POST - Create Table behavior
             const newTable = {
                 table_name: table.table_name,
                 capacity: Number(table.capacity) 
             };
-            //API call
             createTable(newTable);
         } else {
             //PUT - Update Table behavior
             const table_id = table.table_id;
             const newStatus = "seated";
-            //API call
             updateTable(table_id, reservation_id, newStatus);
         };
         //Resets table state

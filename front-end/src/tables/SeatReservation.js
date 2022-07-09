@@ -39,6 +39,7 @@ function SeatReservation({
         return () => abortController.abort();
     };
 
+    //Controls view of seatable tables - set to disable tables with capacity to small to seat
     const tableOptions = tables.map((table) => {
         if(Number(table.capacity) >= Number(reservation.people) && table.reservation_id == null){
             return(
@@ -77,6 +78,7 @@ function SeatReservation({
                 people={reservation.people}
                 reservation_id={reservation_id}
                 reservation_time={reservation.reservation_time} 
+                setResError={setResError}
             />
             <select name="table_id" onChange={onTableSelect}>
                 <option default>Select Table</option>

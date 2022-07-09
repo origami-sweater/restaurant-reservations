@@ -41,7 +41,7 @@ async function updateStatus(req, res){
 //Status
 function statusIsValid(req, res, next){
   const { status } = req.body.data;
-  if(status && status === "booked" || status === "seated" || status === "finished"){
+  if(status && status === "booked" || status === "seated" || status === "finished" || status === "cancelled"){
     next();
   } else {
     next({
@@ -75,17 +75,17 @@ function statusIsNotFinished(req, res, next){
   };
 }
 
-//Determines how to filter dashboard list view
+//Determines how to filter reservations list view
 async function determineList(req, res, next){
   if(req.query.date){
     const reservations = await service.listByDate(req.query.date);
     res.locals.reservations = reservations;
     return next();
-  } else {
-    const reservations = await service.listByDate(req.date);
+  } else if(req.query.mobile_number){
+    const reservations = await service.listIfMobileMatch(req.query.mobile_number);
     res.locals.reservations = reservations;
     return next();
-  }
+  };
 }
 
 //First name
