@@ -19,25 +19,36 @@ async function create(req, res){
 }
 
 //Update
-async function update(req, res){
-  const { reservation_id } = req.body.data;
+async function seat(req, res){
+  const reservation = res.locals.reservation;
   const table = res.locals.table;
   const updatedTable = {
       ...table,
-      reservation_id: reservation_id,
+      reservation_id: reservation.reservation_id,
     };
+  const updatedReservation = {
+    ...reservation,
+    status: "seated"
+  }
   const data = await service.update(updatedTable);
+  await reservationsService.update(updatedReservation);
   res.json({ data });
 }
 
 //Delete - clears out reservation_id fromt able
 async function unseat(req, res){
+  const reservation = res.locals.reservation;
   const table = res.locals.table; 
   const unseatedTable = {
     ...table,
     reservation_id: null
   };
+  const unseatedReservation = {
+    ...reservation,
+    status: "finished"
+  }
   await service.update(unseatedTable);
+  await reservationsService.update(unseatedReservation);
   res.json({});
 }
 
@@ -131,6 +142,18 @@ function tableIsOpen(req, res, next){
   };
 }
 
+function reservationIsSeated(req, res, next){
+  const { status } = res.locals.reservation;
+  if(status === "seated"){
+    next({
+      status: 400,
+      message: "The reservation is already seated."
+    });
+  } else {
+    next();
+  };
+}
+
 function tableIsOccupied(req, res, next){
   const { reservation_id } = res.locals.table;
   if(reservation_id !== null){
@@ -161,13 +184,14 @@ async function reservationExists(req, res, next){
 module.exports = {
     list: [asyncErrorBoundary(list)],
     create: [tableNameIsValid, capacityIsValid, asyncErrorBoundary(create)],
-    update: [
-      isValidRequest,
-      asyncErrorBoundary(tableExists), 
+    seat: [
+      isValidRequest, 
       asyncErrorBoundary(reservationExists),
+      reservationIsSeated,
+      asyncErrorBoundary(tableExists),
       tableIsOpen,
       capacityGreaterThanPeople,
-      asyncErrorBoundary(update)
+      asyncErrorBoundary(seat)
     ],
-    unseat: [asyncErrorBoundary(tableExists), tableIsOccupied, asyncErrorBoundary(unseat)],
+    unseat: [asyncErrorBoundary(tableExists), asyncErrorBoundary(reservationExists), tableIsOccupied, asyncErrorBoundary(unseat)],
 };

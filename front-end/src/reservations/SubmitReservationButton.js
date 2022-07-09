@@ -25,7 +25,6 @@ function SubmitReservationButton({ reservation, setReservation, setResError }){
     //POST ONLY CURRENTLY - reformats reservation saved to state to match table data
     const handleSubmit = (event) => {
         event.preventDefault();
-        //Reset error state
         setResError(null);
         //POST - Create Reservation behavior
         if(!reservation.reservation_date){
@@ -39,7 +38,8 @@ function SubmitReservationButton({ reservation, setReservation, setResError }){
                 mobile_number: reservation.mobile_number,
                 reservation_date: reservation.reservation_date,
                 reservation_time: reservation.reservation_time,
-                people: Number(reservation.people) 
+                people: Number(reservation.people),
+                status: "booked" 
             }
             //Makes sure date and time are formatted correctly for table
             formatReservationDate(newRes);
@@ -53,7 +53,8 @@ function SubmitReservationButton({ reservation, setReservation, setResError }){
                 mobile_number: "",
                 reservation_date: "",
                 reservation_time: "",
-                people: 0
+                people: 0,
+                status: ""
             });
         };
     };

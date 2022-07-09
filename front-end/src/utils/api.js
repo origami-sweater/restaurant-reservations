@@ -88,6 +88,24 @@ export async function postReservation(newRes, signal) {
   return await fetchJson(url, options, newRes);
 }
 
+/**
+ * Updates reservation status 
+ * @param {*} status
+ * the new status
+ * @param reservation_id
+ * the id of the reservation to be updated
+ */
+ export async function updateStatus(newStatus, reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { status: newStatus } }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
 export async function readReservation(reservation_id, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}`;
   return await fetchJson(url, { headers, signal }, {})
@@ -120,12 +138,12 @@ export async function postTable(newTable, signal) {
  * @param reservation_id
  * the id of the reservation to be linked to the table
  */
- export async function seatTable(table_id, reservation_id, signal) {
+ export async function seatTable(table_id, reservation_id, newStatus, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ data: { reservation_id: reservation_id } }),
+    body: JSON.stringify({ data: { reservation_id: reservation_id, status: newStatus } }),
     signal,
   };
   return await fetchJson(url, options, {});

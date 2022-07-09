@@ -23,9 +23,57 @@ function read(req, res){
   res.json({ data });
 }
 
+//Update
+async function updateStatus(req, res){
+  const { status } = req.body.data;
+  const reservation = res.locals.reservation;
+  const updatedReservation = {
+      ...reservation,
+      status: status,
+    };
+  const data = await service.update(updatedReservation);
+  res.json({ data });
+}
 /**
  * Request validation functions
  */
+
+//Status
+function statusIsValid(req, res, next){
+  const { status } = req.body.data;
+  if(status && status === "booked" || status === "seated" || status === "finished"){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "The reservation status cannot be unknown."
+    });
+  };
+}
+
+function statusIsBooked(req, res, next){
+  const { status } = req.body.data;
+  if(status === "booked"){
+    next();
+  } else {
+    next({
+      status: 400,
+      message: "Reservations cannot be created with a status of seated or finished."
+    });
+  };
+}
+
+function statusIsNotFinished(req, res, next){
+  const { status } = res.locals.reservation;
+  if(status === "finished"){
+    next({
+      status: 400,
+      message: "Reservations with a finished status cannot change to booked or seated."
+    });
+  } else {
+    next();
+  };
+}
 
 //Determines how to filter dashboard list view
 async function determineList(req, res, next){
@@ -222,7 +270,14 @@ module.exports = {
     isReservableTime,
     timeIsValid,
     peopleIsValid,
+    statusIsBooked,
     asyncErrorBoundary(create)
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  updateStatus: [
+    statusIsValid,
+    asyncErrorBoundary(reservationExists), 
+    statusIsNotFinished,
+    asyncErrorBoundary(updateStatus)
+  ],
 };

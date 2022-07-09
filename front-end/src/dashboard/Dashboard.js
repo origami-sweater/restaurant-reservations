@@ -47,15 +47,19 @@ function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesErr
   //functions formatting displayed content
   const showReservations = reservations.map((reservation) => {
     const { first_name, last_name, people, reservation_id, status, reservation_time } = reservation;
-    return <FormatReservation 
-      key={reservation_id}
-      first_name={first_name}
-      last_name={last_name}
-      people={people}
-      reservation_id={reservation_id}
-      reservation_time={reservation_time} 
-      status={status}
-    />;
+    if(status === "finished"){
+      return null;
+    } else {
+      return <FormatReservation 
+        key={reservation_id}
+        first_name={first_name}
+        last_name={last_name}
+        people={people}
+        reservation_id={reservation_id}
+        reservation_time={reservation_time} 
+        status={status}
+      />;
+    };
   });
   const showTables = tables.map((table) => {
     return <FormatTable 
@@ -63,8 +67,10 @@ function Dashboard({ date, setDate, tables, setTables, tablesError, setTablesErr
         table={table} 
         setTables={setTables} 
         tableError={tableError}
+        reservationsError={reservationsError}
         setTableError={setTableError} 
         setTablesError={setTablesError}
+        setReservationsError={setReservationsError}
       />;
   });
 

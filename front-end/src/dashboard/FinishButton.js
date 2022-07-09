@@ -1,18 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { unseatTable, listTables } from "../utils/api";
+import { unseatTable, listTables, updateStatus } from "../utils/api";
 
-function FinishButton({ table, setTables, tableError, setTableError, setTablesError }){
-    const { table_id } = table;
+function FinishButton({ table, setTables, setTableError, setTablesError, setReservationsError, tableError, reservationsError }){
+    const { table_id, reservation_id } = table;
     const history = useHistory();
 
-    const endReservation = () => {
+    function endReservation(reservation_id, table_id, tableError, reservationsError){
         const abortController = new AbortController();
+        const newStatus = "finished"
         setTableError(null);
         setTablesError(null);
         unseatTable(table_id, abortController.signal)
             .catch(setTableError);
         if(tableError === null){
+            updateStatus(newStatus, reservation_id, abortController.signal)
+                .catch(setReservationsError);
+        };
+        if(tableError === null && reservationsError === null){
             listTables(abortController.signal)
                 .then(setTables)
                 .then(() => history.go(0))
@@ -24,7 +29,7 @@ function FinishButton({ table, setTables, tableError, setTableError, setTablesEr
     const onFinish = (event) => {
         event.preventDefault();
         if(window.confirm("Is the table ready to seat new guests? This cannot be undone.") === true){
-            endReservation();
+            endReservation(reservation_id, table_id, tableError, reservationsError);
         };
     };
 

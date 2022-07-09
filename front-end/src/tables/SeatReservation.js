@@ -85,9 +85,8 @@ function SeatReservation({
             <SubmitTableButton 
                 table={table}
                 setTable={setTable}
-                tableError={tableError} 
                 setTableError={setTableError} 
-                reservation={reservation}  
+                setResError={setResError} 
             />
             <CancelButton />
         </>

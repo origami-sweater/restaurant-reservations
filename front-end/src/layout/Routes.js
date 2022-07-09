@@ -27,7 +27,8 @@ function Routes() {
           mobile_number: "",
           reservation_date: "",
           reservation_time: "",
-          people: 0
+          people: 0,
+          status: ""
   });
 
   //Table states

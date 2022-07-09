@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory, useLocation, useParams } from "react-router";
-import { postTable, seatTable } from "../utils/api";
+import { postTable, seatTable, updatenewStatus } from "../utils/api";
 
 function SubmitTableButton({ table, setTable, setTableError }){
     const history = useHistory();
@@ -12,33 +12,21 @@ function SubmitTableButton({ table, setTable, setTableError }){
     if(location.pathname === `/reservations/${reservation_id}/seat`) onSeatPage = true;
     
     //New Table - handles API POST
-    async function createTable(newTable){
+    function createTable(newTable){
         const abortController = new AbortController();
-        try {
-            const signal = abortController.signal;
-            await postTable(newTable, signal);
-            //sends us to dashboard
-            history.push(`/dashboard`)
-            history.go(0); 
-        } catch(err) {
-            console.log(err.name);
-            setTableError(err);
-        };
+        setTableError(null);
+        postTable(newTable, abortController.signal)
+            .catch(setTableError)
+        return () => abortController.abort();
     };
 
     //Update table - handles API PUT
-    async function updateTable(table_id){
+    function updateTable(table_id, reservation_id, newStatus){
         const abortController = new AbortController();
-        try {
-            const signal = abortController.signal;
-            await seatTable(table_id, reservation_id, signal);
-            //sends us to dashboard
-            history.push(`/dashboard`)
-            history.go(0); 
-        } catch(err) {
-            console.log(err.name);
-            setTableError(err);
-        };
+        setTableError(null);
+        seatTable(table_id, reservation_id, newStatus, abortController.signal)
+            .catch(setTableError);
+        return () => abortController.abort();
     };
 
     //POST & PUT submit event
@@ -58,8 +46,9 @@ function SubmitTableButton({ table, setTable, setTableError }){
         } else {
             //PUT - Update Table behavior
             const table_id = table.table_id;
+            const newStatus = "seated";
             //API call
-            updateTable(table_id, reservation_id);
+            updateTable(table_id, reservation_id, newStatus);
         };
         //Resets table state
         setTable({
@@ -68,6 +57,9 @@ function SubmitTableButton({ table, setTable, setTableError }){
             capacity: 0,
             reservation_id: null
         });
+        //returns us to dashboard
+        history.push(`/dashboard`);
+        history.go(0); 
     };
 
     return (
