@@ -15,3 +15,17 @@ need to evaluate tableExists- can we rely on reqbody data instead of params
 {JSON.stringify(reservation)}
 
 issue with error message for delete on dashboard refreshing
+function loadSeats(){
+        const abortController = new AbortController();
+        setResError(null);
+        setTablesError(null);
+        //API call verifying reservation information
+        readReservation(reservation_id, abortController.signal)
+          .then(setReservation)
+          .catch(setResError);
+        //API call for tables to ensure looking at most up-to-date information
+        listTables(abortController.signal)
+          .then(setTables)
+          .catch(setTablesError);
+        return () => abortController.abort();
+    };

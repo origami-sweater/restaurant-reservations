@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
@@ -8,6 +7,7 @@ import NewReservation from "../reservations/NewReservation";
 import NewTable from "../tables/NewTable";
 import SeatReservation from "../tables/SeatReservation";
 import Search from "../search/Search";
+import EditReservation from "../reservations/EditReservation";
 
 /**
  * Defines all the routes for the application.
@@ -48,6 +48,22 @@ function Routes() {
     <Switch>
       <Route exact={true} path="/">
         <Redirect to={"/dashboard"} />
+      </Route>
+      <Route exact={true} path="/reservations/:reservation_id/edit">
+        <EditReservation 
+          table={table}
+          setTable={setTable}
+          tableError={tableError}
+          setTableError={setTableError}
+          reservation={reservation}
+          setReservation={setReservation}
+          resError={resError} 
+          setResError={setResError}
+          tables={tables}
+          setTables={setTables}
+          tablesError={tablesError}
+          setTablesError={setTablesError}
+        />
       </Route>
       <Route exact={true} path="/reservations/:reservation_id/seat">
         <SeatReservation 

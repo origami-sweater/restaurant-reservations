@@ -14,6 +14,7 @@ function ReservationForm({ reservation, setReservation, setResError }){
                     id="first_name"
                     name="first_name"
                     onChange={({target}) => handleFormChange({target, reservation, setReservation})}
+                    value={reservation.first_name}
                 />
             </label>
             <label htmlFor="last_name">
@@ -23,6 +24,7 @@ function ReservationForm({ reservation, setReservation, setResError }){
                     id="last_name"
                     name="last_name"
                     onChange={({target}) => handleFormChange({target, reservation, setReservation})}
+                    value={reservation.last_name}
                 />
             </label>
             <label htmlFor="mobile_number">
@@ -32,6 +34,7 @@ function ReservationForm({ reservation, setReservation, setResError }){
                     id="mobile_number"
                     name="mobile_number"
                     onChange={({target}) => handleFormChange({target, reservation, setReservation})}
+                    value={reservation.mobile_number}
                 />
             </label>
             <label htmlFor="reservation_date">
@@ -43,6 +46,7 @@ function ReservationForm({ reservation, setReservation, setResError }){
                     type="date"
                     pattern="\d{4}-\d{2}-\d{2}"
                     onChange={({target}) => handleFormChange({target, reservation, setReservation})}
+                    value={reservation.reservation_date}
                 />
             </label>
             <label htmlFor="reservation_time">
@@ -52,6 +56,7 @@ function ReservationForm({ reservation, setReservation, setResError }){
                     id="reservation_time"
                     name="reservation_time"
                     onChange={({target}) => handleFormChange({target, reservation, setReservation})}
+                    value={reservation.reservation_time}
                 />
             </label>
             <label htmlFor="people">
@@ -61,10 +66,11 @@ function ReservationForm({ reservation, setReservation, setResError }){
                     id="people"
                     name="people"
                     onChange={({target}) => handleFormChange({target, reservation, setReservation})}
+                    value={reservation.people}
                 />
             </label>
             <SubmitReservationButton reservation={reservation} setReservation={setReservation} setResError={setResError}/>
-            <CancelButton />
+            <CancelButton setReservation={setReservation}/>
         </form>
     );
 }

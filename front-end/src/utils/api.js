@@ -53,6 +53,8 @@ async function fetchJson(url, options, onCancel) {
 }
 
 
+
+
 //Reservation API calls
 
 /**
@@ -67,6 +69,13 @@ export async function listReservations(params, signal) {
     url.searchParams.append(key, value.toString())
   );
   return await fetchJson(url, { headers, signal }, [])
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+export async function readReservation(reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
+  return await fetchJson(url, { headers, signal }, {})
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
@@ -106,12 +115,19 @@ export async function postReservation(newRes, signal) {
   return await fetchJson(url, options, {});
 }
 
-export async function readReservation(reservation_id, signal) {
-  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
-  return await fetchJson(url, { headers, signal }, {})
-    .then(formatReservationDate)
-    .then(formatReservationTime);
+export async function updateReservation(updatedRes, signal) {
+  const url = `${API_BASE_URL}/reservations/${updatedRes.reservation_id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: updatedRes }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
 }
+
+
+
 
 //Table API calls
 

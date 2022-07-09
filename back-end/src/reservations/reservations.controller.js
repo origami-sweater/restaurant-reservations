@@ -1,5 +1,6 @@
 const service = require("./reservations.service"); 
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const { update } = require("../db/connection");
 
 /**
  * CRUD functions
@@ -24,6 +25,12 @@ function read(req, res){
 }
 
 //Update
+async function updateReservation(req, res){
+  const updatedReservation = req.body.data;
+  const data = await service.update(updatedReservation);
+  res.json({ data });
+}
+
 async function updateStatus(req, res){
   const { status } = req.body.data;
   const reservation = res.locals.reservation;
@@ -53,13 +60,13 @@ function statusIsValid(req, res, next){
 
 function statusIsBooked(req, res, next){
   const { status } = req.body.data;
-  if(status === "booked"){
-    next();
-  } else {
+  if(status === "finished"|| status === "seated"){
     next({
       status: 400,
       message: "Reservations cannot be created with a status of seated or finished."
     });
+  } else {
+    next();
   };
 }
 
@@ -274,6 +281,19 @@ module.exports = {
     asyncErrorBoundary(create)
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  updateReservation: [
+    firstNameIsValid,
+    lastNameIsValid, 
+    mobileNumberIsValid,
+    dateIsValid,
+    futureTimesOnly,
+    noTuesdays,
+    isReservableTime,
+    timeIsValid,
+    peopleIsValid,
+    statusIsBooked,
+    asyncErrorBoundary(updateReservation)
+  ],
   updateStatus: [
     statusIsValid,
     asyncErrorBoundary(reservationExists), 
