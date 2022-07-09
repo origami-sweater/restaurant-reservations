@@ -7,10 +7,10 @@ function FormatTable({ table, setTables, tableError, setTableError, setTablesErr
   if(reservation_id === null) status = "Free";
 
   return(
-  <div key={table_id}>
-      <h6>{table_name}</h6>
-      <p data-table-id-status={table_id}>{status}</p>
-      <p>Capacity: {capacity}</p>
+  <tr>
+      <td>{table_name}</td>
+      <td data-table-id-status={table_id}>{status}</td>
+      <td>{capacity}</td>
       {status === "Occupied" && 
         <FinishButton 
             table={table} 
@@ -19,7 +19,7 @@ function FormatTable({ table, setTables, tableError, setTableError, setTablesErr
             setTableError={setTableError} 
             setTablesError={setTablesError}
         />}
-  </div>
+  </tr>
   );
 }
 

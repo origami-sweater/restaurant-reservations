@@ -53,7 +53,7 @@ function SubmitReservationButton({ reservation, setReservation, setResError }){
                 mobile_number: "",
                 reservation_date: "",
                 reservation_time: "",
-                people: 1
+                people: 0
             });
         };
     };

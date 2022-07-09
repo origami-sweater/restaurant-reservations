@@ -1,16 +1,16 @@
 import React from "react";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import { postTable, seatTable } from "../utils/api";
 
-function SubmitTableButton({ table, setTable, setTableError, reservation }){
+function SubmitTableButton({ table, setTable, setTableError }){
     const history = useHistory();
     const location = useLocation();
-    const reservation_id = reservation.reservation_id;
+    const { reservation_id } = useParams();
     let onSeatPage = false;
 
     //onSeatPage boolean decides whether button should create a table or update a table
     if(location.pathname === `/reservations/${reservation_id}/seat`) onSeatPage = true;
-
+    
     //New Table - handles API POST
     async function createTable(newTable){
         const abortController = new AbortController();
@@ -27,7 +27,7 @@ function SubmitTableButton({ table, setTable, setTableError, reservation }){
     };
 
     //Update table - handles API PUT
-    async function updateTable(table_id, reservation_id){
+    async function updateTable(table_id){
         const abortController = new AbortController();
         try {
             const signal = abortController.signal;
@@ -47,7 +47,7 @@ function SubmitTableButton({ table, setTable, setTableError, reservation }){
         //Reset error state
         setTableError(null);
 
-        if(onSeatPage === false){
+        if(onSeatPage === false && table.table_name !== null && Number(table.capacity) > 0){
             //POST - Create Table behavior
             const newTable = {
                 table_name: table.table_name,
@@ -65,7 +65,7 @@ function SubmitTableButton({ table, setTable, setTableError, reservation }){
         setTable({
             table_id: null,
             table_name: "",
-            capacity: 1,
+            capacity: 0,
             reservation_id: null
         });
     };

@@ -27,7 +27,7 @@ function Routes() {
           mobile_number: "",
           reservation_date: "",
           reservation_time: "",
-          people: 1
+          people: 0
   });
 
   //Table states
@@ -36,7 +36,7 @@ function Routes() {
   const [table, setTable] = useState({
     table_id: null,
     table_name: "",
-    capacity: 1,
+    capacity: 0,
     reservation_id: null
   });
   const [tableError, setTableError] = useState(null);

@@ -29,9 +29,9 @@ function FinishButton({ table, setTables, tableError, setTableError, setTablesEr
     };
 
     return(
-        <>
+        <td>
             <button type="finish" data-table-id-finish={table.table_id} className="btn btn-primary ml-2" onClick={onFinish}>Finish</button>
-        </>
+        </td>
     )
 }
 

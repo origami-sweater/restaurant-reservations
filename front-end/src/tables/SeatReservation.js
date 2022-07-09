@@ -4,6 +4,7 @@ import { listTables, readReservation } from "../utils/api";
 import CancelButton from "../utils/CancelButton";
 import SubmitTableButton from "./SubmitTableButton";
 import FormatReservation from "../dashboard/FormatReservation";
+import ErrorAlert from "../layout/ErrorAlert";
 
 function SeatReservation({ 
     table, 
@@ -45,6 +46,12 @@ function SeatReservation({
                     {table.table_name} - {table.capacity}
                 </option>
             );
+        } else if(Number(table.capacity) < Number(reservation.people) || table.reservation_id != null){
+            return(
+                <option key={table.table_id} value={table.table_id} disabled>
+                    {table.table_name} - {table.capacity}
+                </option>
+            );
         } else {
             return null;
         };
@@ -54,13 +61,16 @@ function SeatReservation({
         setTable({
             table_id: target.value,
             table_name: "",
-            capacity: 1,
+            capacity: 0,
             reservation_id: null
         });
     };
 
     return(
         <>
+            <ErrorAlert error={tableError}/>
+            <ErrorAlert error={tablesError}/>
+            <ErrorAlert error={resError}/>
             <FormatReservation 
                 first_name={reservation.first_name}
                 last_name={reservation.last_name}

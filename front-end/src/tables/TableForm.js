@@ -4,17 +4,19 @@ import handleFormChange from "../utils/handleFormChange";
 import SubmitTableButton from "./SubmitTableButton";
 
 function TableForm({ table, setTable, setTableError }){
-
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+        console.log("Submitted");
+    };
+    
     return(
-        <form>
+        <form onSubmit={handleSubmit}>
             <label htmlFor="table_name">
                 Table Name:
                 <input
                     name="table_name"
                     type="text"
-                    id="table_name"
                     onChange={({target}) => handleFormChange({target, table, setTable})}
-                    value={table.table_name}
                 />
             </label>
             <label htmlFor="capacity">
@@ -22,9 +24,7 @@ function TableForm({ table, setTable, setTableError }){
                 <input
                     name="capacity"
                     type="text"
-                    id="capacity" 
                     onChange={({target}) => handleFormChange({target, table, setTable})}
-                    value={table.capacity}
                 />
             </label>
             <SubmitTableButton table={table} setTable={setTable} setTableError={setTableError}/>
