@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import FindButton from "./FindButton";
 import ErrorAlert from "../layout/ErrorAlert";
-import FormatReservation from "../dashboard/FormatReservation";
-import handleFormChange from "../utils/handleFormChange";
+import FormatReservation from "../reservations/FormatReservation";
 
 function Search(){
     const [searchList, setSearchList] = useState([]);

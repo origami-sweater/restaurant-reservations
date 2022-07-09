@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ErrorAlert from "../layout/ErrorAlert";
 import DateButtons from "./DateButtons";
-import FormatReservation from "./FormatReservation";
-import FormatTable from "./FormatTable";
+import FormatReservation from "../reservations/FormatReservation";
+import FormatTable from "../tables/FormatTable";
 import useQuery from "../utils/useQuery";
 import { today } from "../utils/date-time";
 import { listReservations, listTables } from "../utils/api";

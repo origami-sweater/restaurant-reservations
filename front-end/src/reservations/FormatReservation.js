@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router";
-import CancelReservationButton from "../utils/CancelReservationButton";
-import EditReservationButton from "../utils/EditReservationButton";
+import CancelReservationButton from "./CancelReservationButton";
+import EditReservationButton from "./EditReservationButton";
 //import { formatAsTime } from "../utils/date-time";
 import SeatButton from "./SeatButton";
 

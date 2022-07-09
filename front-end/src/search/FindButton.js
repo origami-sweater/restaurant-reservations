@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { listReservations } from "../utils/api";
 
 function FindButton({ searchFor, searchList, setSearchList, setSearchError, setSearchFor }){

@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { listTables, readReservation } from "../utils/api";
 import CancelButton from "../utils/CancelButton";
 import SubmitTableButton from "./SubmitTableButton";
-import FormatReservation from "../dashboard/FormatReservation";
+import FormatReservation from "../reservations/FormatReservation";
 import ErrorAlert from "../layout/ErrorAlert";
 
 function SeatReservation({ 
