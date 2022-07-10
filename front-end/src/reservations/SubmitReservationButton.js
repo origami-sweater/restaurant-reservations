@@ -42,7 +42,7 @@ function SubmitReservationButton({ reservation, resError, setReservation, setRes
         try {
             await updateReservation(updatedRes, abortController.signal);
             setReservation(clearRes);
-            history.goBack();
+            history.push(`/dashboard?date=${updatedRes.reservation_date}`);
         } catch(error) {
             setResError(error);
         };
@@ -78,8 +78,6 @@ function SubmitReservationButton({ reservation, resError, setReservation, setRes
                     formatReservationDate(updatedRes);
                     formatReservationTime(updatedRes);
                     changeReservation(updatedRes);
-                    setReservation(clearRes);
-                    history.goBack();
                 };
             };
         }; 

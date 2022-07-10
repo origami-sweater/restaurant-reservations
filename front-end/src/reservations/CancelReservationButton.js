@@ -10,6 +10,7 @@ function CancelReservationButton({ reservation_id, setResError }){
         setResError(null);
         try{
             await updateStatus(reservation_id, newStatus, abortController.signal);
+            history.go(0)
         } catch(error) {
             setResError(error);
         };
@@ -21,7 +22,6 @@ function CancelReservationButton({ reservation_id, setResError }){
         if(window.confirm("Do you want to cancel this reservation? This cannot be undone.") === true){
             const newStatus = "cancelled";
             cancelReservation(reservation_id, newStatus);
-            history.go(0)
         };
     };
 

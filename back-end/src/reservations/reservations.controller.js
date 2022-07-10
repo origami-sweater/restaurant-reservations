@@ -282,6 +282,7 @@ module.exports = {
   ],
   read: [asyncErrorBoundary(reservationExists), read],
   updateReservation: [
+    asyncErrorBoundary(reservationExists),
     firstNameIsValid,
     lastNameIsValid, 
     mobileNumberIsValid,
