@@ -291,6 +291,7 @@ module.exports = {
     isReservableTime,
     timeIsValid,
     peopleIsValid,
+    statusIsValid,
     statusIsBooked,
     asyncErrorBoundary(updateReservation)
   ],

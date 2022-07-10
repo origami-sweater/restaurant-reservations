@@ -58,7 +58,6 @@ function SubmitTableButton({ table, setTable, tableChoice, setTableChoice, setTa
             //PUT - Update Table behavior
             const table_id = tableChoice.table_id;
             const newStatus = "seated";
-            console.log(table_id, reservation_id, newStatus);
             updateTable(table_id, reservation_id, newStatus);
         };
     };

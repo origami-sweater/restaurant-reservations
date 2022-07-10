@@ -104,7 +104,7 @@ export async function postReservation(newRes, signal) {
  * @param reservation_id
  * the id of the reservation to be updated
  */
- export async function updateStatus(reservation_id, newStatus, signal) {
+ export async function updateStatus(newStatus, reservation_id, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
   const options = {
     method: "PUT",

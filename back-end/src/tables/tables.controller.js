@@ -155,7 +155,7 @@ function reservationIsSeated(req, res, next){
 }
 
 function tableIsOccupied(req, res, next){
-  const { reservation_id } = res.locals.table;
+  const { reservation_id } = res.locals.reservation;
   if(reservation_id !== null){
     next();
   } else {
@@ -168,8 +168,13 @@ function tableIsOccupied(req, res, next){
 
 //Reservation exists - makes sure reservation exists prior to seating
 async function reservationExists(req, res, next){
-  const { reservation_id } = req.body.data;
-  const foundReservation = await reservationsService.read(reservation_id);
+  let foundReservation;
+  if(req.body.data){
+    const { reservation_id } = req.body.data;
+    foundReservation = await reservationsService.read(reservation_id);
+  } else if(res.locals.table.reservation_id){
+    foundReservation = await reservationsService.read(res.locals.table.reservation_id);
+  }
   if (foundReservation){
       res.locals.reservation = foundReservation;
       next();
