@@ -8,7 +8,7 @@ function NewReservation({ reservation, setReservation, resError, setResError }){
         <>
             <h2>Submit New Reservation:</h2>
             <ErrorAlert error={resError} />
-            <ReservationForm reservation={reservation} setReservation={setReservation} setResError={setResError} />
+            <ReservationForm reservation={reservation} resError={resError} setReservation={setReservation} setResError={setResError} />
         </>
     );
 }

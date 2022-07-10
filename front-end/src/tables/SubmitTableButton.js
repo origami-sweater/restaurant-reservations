@@ -16,7 +16,8 @@ function SubmitTableButton({ table, setTable, setTableError }){
         const abortController = new AbortController();
         setTableError(null);
         postTable(newTable, abortController.signal)
-            .catch(setTableError)
+            .then(history.push(`/dashboard`))
+            .catch((error) => setTableError(error));
         return () => abortController.abort();
     };
 
@@ -53,8 +54,7 @@ function SubmitTableButton({ table, setTable, setTableError }){
             reservation_id: null
         });
         //returns us to dashboard
-        history.push(`/dashboard`);
-        history.go(0); 
+        //history.push(`/dashboard`);
     };
 
     return (

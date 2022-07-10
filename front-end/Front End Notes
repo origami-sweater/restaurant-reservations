@@ -1,4 +1,4 @@
-Only ever be a max number of tables, and the tables table would ahve to connect to the reservations table...maybe a join table?
+/*Only ever be a max number of tables, and the tables table would ahve to connect to the reservations table...maybe a join table?
 
 npm run start:dev
 
@@ -15,17 +15,16 @@ need to evaluate tableExists- can we rely on reqbody data instead of params
 {JSON.stringify(reservation)}
 
 issue with error message for delete on dashboard refreshing
-function loadSeats(){
-        const abortController = new AbortController();
-        setResError(null);
-        setTablesError(null);
-        //API call verifying reservation information
-        readReservation(reservation_id, abortController.signal)
-          .then(setReservation)
-          .catch(setResError);
-        //API call for tables to ensure looking at most up-to-date information
-        listTables(abortController.signal)
-          .then(setTables)
-          .catch(setTablesError);
-        return () => abortController.abort();
+*/
+async function changeReservation(updatedRes){
+    const abortController = new AbortController();
+    setResError(null);
+    try {
+        await updateReservation(updatedRes, abortController.signal);
+        setReservation(clearRes);
+        history.goBack();
+    } catch(error) {
+        setResError(error);
     };
+    return () => abortController.abort(); 
+};

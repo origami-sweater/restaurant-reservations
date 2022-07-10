@@ -4,7 +4,7 @@ import { postReservation, updateReservation } from "../utils/api";
 import formatReservationDate from "../utils/format-reservation-date";
 import formatReservationTime from "../utils/format-reservation-time";
 
-function SubmitReservationButton({ reservation, setReservation, setResError }){
+function SubmitReservationButton({ reservation, resError, setReservation, setResError }){
     const history = useHistory();
     const location = useLocation();
     let onEditPage = false;
@@ -22,22 +22,33 @@ function SubmitReservationButton({ reservation, setReservation, setResError }){
     if(location.pathname === `/reservations/${reservation.reservation_id}/edit`) onEditPage = true;
 
     //New Reservation - handles API POST
-    function createReservation(newRes){
+    async function createReservation(newRes){
         const abortController = new AbortController();
         setResError(null);
-        postReservation(newRes, abortController.signal)
-            .catch(setResError);
+        try {
+            await postReservation(newRes, abortController.signal);
+            setReservation(clearRes);
+            history.push(`/dashboard?date=${newRes.reservation_date}`);
+        } catch(error) {
+            setResError(error);
+        };
         return () => abortController.abort(); 
     };
 
     //Edit Reservation - handles API PUT
-    function changeReservation(updatedRes){
+    async function changeReservation(updatedRes){
         const abortController = new AbortController();
         setResError(null);
-        updateReservation(updatedRes, abortController.signal)
-            .catch(setResError)
+        try {
+            await updateReservation(updatedRes, abortController.signal);
+            setReservation(clearRes);
+            history.goBack();
+        } catch(error) {
+            setResError(error);
+        };
         return () => abortController.abort(); 
     };
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -58,9 +69,6 @@ function SubmitReservationButton({ reservation, setReservation, setResError }){
                 formatReservationDate(newRes);
                 formatReservationTime(newRes);
                 createReservation(newRes);
-                //Sends to reservation on dashboard
-                history.push(`/dashboard?date=${newRes.reservation_date}`)
-                history.go(0);
             } else {
                 //Executes update if status is booked
                 if(reservation.status !== "booked"){
