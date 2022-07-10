@@ -37,12 +37,12 @@ function Search(){
                     placeholder="Enter a customer's phone number"
                     onChange={({target}) => setSearchFor({mobile_number: target.value})}
                 />
-                <FindButton searchFor={searchFor} searchList={searchList} setSearchFor={setSearchFor} setSearchList={setSearchList} setSearchError={setSearchError}/>
+                <FindButton searchFor={searchFor} setSearchFor={setSearchFor} setSearchList={setSearchList} setSearchError={setSearchError}/>
             </label>
             {searchList.length > 0 && matchingReservations}
             {searchList.length === 0 && <p>{noReservationsMessage}</p>}
         </>
-    )
+    );
 }
 
 export default Search;

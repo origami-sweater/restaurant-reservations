@@ -27,7 +27,7 @@ function CancelReservationButton({ reservation_id, setResError }){
 
     return(
         <>
-            <button type="cancel" data-reservation-id-cancel={reservation_id} className="btn btn-primary ml-2" onClick={onCancelRes}>Cancel</button>
+            <button type="cancel" data-reservation-id-cancel={reservation_id} className="btn btn-danger btn-sm ml-2" onClick={onCancelRes}>Cancel</button>
         </>
     )
 }

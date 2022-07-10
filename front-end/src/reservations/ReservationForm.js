@@ -63,6 +63,7 @@ function ReservationForm({ reservation, setReservation, setResError, resError })
                 Party Size:
                 <input
                     type="number"
+                    min="0"
                     id="people"
                     name="people"
                     onChange={({target}) => handleFormChange({target, reservation, setReservation})}

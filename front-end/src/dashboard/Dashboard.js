@@ -88,21 +88,21 @@ function Dashboard({
     <main>
       <h1>Dashboard</h1>
       <DateButtons date={date} setDate={setDate}/>
-      <div className="d-md-flex mb-3">
+      <div className="d-md-flex mb-4 mt-3">
         <h4 className="mb-0">{`Reservations for ${date}`}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={tableError} />
       <ErrorAlert error={resError} />
-      <div className="container fluid">{showReservations}</div>
-      <table className="container fluid">
+      <div className="container fluid mb-3 pl-0 ml-0">{showReservations}</div>
+      <table className="container fluid ml-0 pl-0">
         <thead>
           <tr>
             <th>Table Name</th>
             <th>Status</th>
             <th>Capacity</th>
-            <th>Finish?</th>
+            <th>Finish Reservation?</th>
           </tr>
         </thead>
         <tbody>

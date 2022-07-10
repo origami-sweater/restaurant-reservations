@@ -20,7 +20,10 @@ function EditReservation({ reservation, setReservation, resError, setResError })
 
     return(
         <>
-            <h2>Edit Reservation:</h2>
+            <h1>Edit Reservation</h1>
+            <div className="d-md-flex mb-3">
+                <h4 className="mb-0">If you wish to cancel the reservation, please return to the dashboard.</h4>
+            </div>
             <ErrorAlert error={resError} />
             <ReservationForm reservation={reservation} setReservation={setReservation} setResError={setResError} />
         </>

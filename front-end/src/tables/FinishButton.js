@@ -35,7 +35,8 @@ function FinishButton({ table, setTables, setTableError }){
 
     return(
         <td>
-            <button type="finish" data-table-id-finish={table.table_id} className="btn btn-primary ml-2" onClick={onFinish}>Finish</button>
+            <button type="finish" 
+                data-table-id-finish={table.table_id} className="btn btn-danger btn-sm" onClick={onFinish}>Finish</button>
         </td>
     )
 }

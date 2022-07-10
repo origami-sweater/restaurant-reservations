@@ -14,10 +14,10 @@ function FormatReservation({ first_name, last_name, people, reservation_id, rese
 
   return(
   <div key={reservation_id}>
-      <h6>{first_name} {last_name}</h6>
-      <p>Reservation Time: {reservation_time}</p>
-      <p>Party Size: {people}</p>
-      <p data-reservation-id-status={reservation_id}>Status: {status}</p>
+      <h5 className="mb-0">{first_name} {last_name}</h5>
+      <p className="mb-0">Reservation Time: {reservation_time}</p>
+      <p className="mb-0">Party Size: {people}</p>
+      <p data-reservation-id-status={reservation_id} className="mb-1">Status: {status}</p>
       <EditReservationButton reservation_id={reservation_id} />
       {!onSeatPage && status === "booked" && <SeatButton reservation_id={reservation_id}/>}
       <CancelReservationButton reservation_id={reservation_id} setResError={setResError}/>

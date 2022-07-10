@@ -1,28 +1,31 @@
 import React from "react";
 import { listReservations } from "../utils/api";
 
-function FindButton({ searchFor, searchList, setSearchList, setSearchError, setSearchFor }){
+function FindButton({ searchFor, setSearchList, setSearchError, setSearchFor }){
 
-    function findReservations(searchFor){
+    async function findReservations(searchFor){
         const abortController = new AbortController();
         setSearchError(null);
-        listReservations(searchFor, abortController.signal)
-            .then(setSearchList)
-            .catch(setSearchError);
+        try{
+            const resList = await listReservations(searchFor, abortController.signal);
+            setSearchList(resList);
+            setSearchFor({mobile_number: ""});
+        } catch(error) {
+            setSearchError(error);
+        };
         return () => abortController.abort();
     };
     
     const onFind = (event) =>{
         event.preventDefault();
         findReservations(searchFor);
-        setSearchFor({mobile_number: ""})
-    }
+    };
 
     return(
         <>
             <button type="submit" className="btn btn-primary ml-2" onClick={onFind}>Find</button>
         </>
-    )
+    );
 }
 
 export default FindButton;
