@@ -28,7 +28,7 @@ function TableForm({ table, setTable, setTableError }){
                 />
             </label>
             <SubmitTableButton table={table} setTable={setTable} setTableError={setTableError}/>
-            <CancelButton />
+            <CancelButton setTable={setTable} table={table}/>
         </form>
     );
 }

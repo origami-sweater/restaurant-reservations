@@ -12,21 +12,41 @@ function SubmitTableButton({ table, setTable, setTableError }){
     if(location.pathname === `/reservations/${reservation_id}/seat`) onSeatPage = true;
     
     //New Table - handles API POST
-    function createTable(newTable){
+    async function createTable(newTable){
         const abortController = new AbortController();
         setTableError(null);
-        postTable(newTable, abortController.signal)
-            .then(history.push(`/dashboard`))
-            .catch((error) => setTableError(error));
+        try{
+            await postTable(newTable, abortController.signal);
+            setTable({
+                table_id: null,
+                table_name: "",
+                capacity: 0,
+                reservation_id: null
+            });
+            history.push(`/dashboard`);
+        } catch(error) {
+            setTableError(error);
+        };
         return () => abortController.abort();
     };
 
     //Update table - handles API PUT
-    function updateTable(table_id, reservation_id, newStatus){
+    async function updateTable(table_id, reservation_id, newStatus){
         const abortController = new AbortController();
         setTableError(null);
-        seatTable(table_id, reservation_id, newStatus, abortController.signal)
-            .catch(setTableError);
+        setTableError(null);
+        try{
+            await seatTable(table_id, reservation_id, newStatus, abortController.signal);
+            setTable({
+                table_id: null,
+                table_name: "",
+                capacity: 0,
+                reservation_id: null
+            });
+            history.push(`/dashboard`);
+        } catch(error) {
+            setTableError(error);
+        };
         return () => abortController.abort();
     };
 
@@ -46,15 +66,6 @@ function SubmitTableButton({ table, setTable, setTableError }){
             const newStatus = "seated";
             updateTable(table_id, reservation_id, newStatus);
         };
-        //Resets table state
-        setTable({
-            table_id: null,
-            table_name: "",
-            capacity: 0,
-            reservation_id: null
-        });
-        //returns us to dashboard
-        //history.push(`/dashboard`);
     };
 
     return (

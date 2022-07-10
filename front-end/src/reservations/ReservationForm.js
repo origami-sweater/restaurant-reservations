@@ -70,7 +70,7 @@ function ReservationForm({ reservation, setReservation, setResError, resError })
                 />
             </label>
             <SubmitReservationButton reservation={reservation} resError={resError} setReservation={setReservation} setResError={setResError}/>
-            <CancelButton setReservation={setReservation}/>
+            <CancelButton setReservation={setReservation} reservation={reservation}/>
         </form>
     );
 }
