@@ -9,7 +9,7 @@ function FormatReservation({ first_name, last_name, people, reservation_id, rese
   //const reformatTime = formatAsTime(reservation_time);
   const location = useLocation();
   let onSeatPage = false;
-
+  //checks if buttons should display based on url
   if(location.pathname === `/reservations/${reservation_id}/seat`) onSeatPage = true;
 
   return(
@@ -18,9 +18,9 @@ function FormatReservation({ first_name, last_name, people, reservation_id, rese
       <p className="mb-0">Reservation Time: {reservation_time}</p>
       <p className="mb-0">Party Size: {people}</p>
       <p data-reservation-id-status={reservation_id} className="mb-1">Status: {status}</p>
-      <EditReservationButton reservation_id={reservation_id} />
+      {!onSeatPage && <EditReservationButton reservation_id={reservation_id} />}
       {!onSeatPage && status === "booked" && <SeatButton reservation_id={reservation_id}/>}
-      <CancelReservationButton reservation_id={reservation_id} setResError={setResError}/>
+      {!onSeatPage && <CancelReservationButton reservation_id={reservation_id} setResError={setResError}/>}
   </div>
   );
 }

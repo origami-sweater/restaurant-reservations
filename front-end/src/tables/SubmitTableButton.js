@@ -63,7 +63,7 @@ function SubmitTableButton({ table, setTable, tableChoice, setTableChoice, setTa
     };
 
     return (
-        <button type="submit" className="btn btn-primary ml-2" onClick={handleSubmit}>Submit</button>
+        <button type="submit" className="btn btn-primary ml-0 mt-1" onClick={handleSubmit}>Submit</button>
     );
 }
 

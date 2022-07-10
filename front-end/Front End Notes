@@ -1,0 +1,30 @@
+/*Only ever be a max number of tables, and the tables table would ahve to connect to the reservations table...maybe a join table?
+Seated things aren't showing on dashboard.
+npm run start:dev
+
+Date problem - 2=tues
+const thisDate = new Date(today())
+const date = thisDate.getDay()
+In repl, format =2, but it's logging as 1
+
+ask about day of week issue
+
+issues with dashboard loads - fetch fails, insufficient resources, constant flickering
+
+need to evaluate tableExists- can we rely on reqbody data instead of params
+{JSON.stringify(reservation)}
+
+issue with error message for delete on dashboard refreshing
+*/
+async function changeReservation(updatedRes){
+    const abortController = new AbortController();
+    setResError(null);
+    try {
+        await updateReservation(updatedRes, abortController.signal);
+        setReservation(clearRes);
+        history.goBack();
+    } catch(error) {
+        setResError(error);
+    };
+    return () => abortController.abort(); 
+};

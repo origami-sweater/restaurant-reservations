@@ -11,19 +11,25 @@ function TableForm({ table, setTable, setTableError }){
     
     return(
         <form onSubmit={handleSubmit}>
-            <label htmlFor="table_name">
-                Table Name:
+            <label htmlFor="table_name" className="input-group flex-nowrap">
+                <span className="input-group-text" id="1">Table Name</span> 
                 <input
                     name="table_name"
                     type="text"
+                    className="form-control"
+                    aria-label="table_name" 
+                    aria-describedby="1"
                     onChange={({target}) => handleFormChange({target, table, setTable})}
                 />
             </label>
-            <label htmlFor="capacity">
-                Capacity:
+            <label htmlFor="capacity" className="input-group flex-nowrap">
+                <span className="input-group-text" id="2">Capacity</span> 
                 <input
                     name="capacity"
                     type="text"
+                    className="form-control"
+                    aria-label="capacity" 
+                    aria-describedby="2"
                     onChange={({target}) => handleFormChange({target, table, setTable})}
                 />
             </label>

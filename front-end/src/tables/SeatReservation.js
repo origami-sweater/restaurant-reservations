@@ -63,6 +63,10 @@ function SeatReservation({
 
     return(
         <>
+            <h2>Seat</h2>
+            <div className="d-md-flex mb-3">
+                <p className="mb-0">Please select the table the party will be seated at.</p>
+            </div>
             <ErrorAlert error={tableError}/>
             <ErrorAlert error={tablesError}/>
             <ErrorAlert error={resError}/>
@@ -74,17 +78,21 @@ function SeatReservation({
                 reservation_time={reservation.reservation_time} 
                 setResError={setResError}
             />
-            <select name="table_id" onChange={onTableSelect}>
-                <option default>Select Table</option>
-                {tableOptions}
-            </select>
-            <SubmitTableButton 
+            <form className="mt-1">
+                <div> 
+                    <select name="table_id" className="form-select mb-2" aria-label="select_table" onChange={onTableSelect}>
+                        <option default>Select Table</option>
+                        {tableOptions}
+                    </select>
+                </div>
+                <SubmitTableButton 
                 tableChoice={tableChoice}
                 setTableChoice={setTableChoice}
                 setTableError={setTableError} 
                 setResError={setResError} 
-            />
-            <CancelButton />
+                />
+                <CancelButton />
+            </form>
         </>
     )
 }
