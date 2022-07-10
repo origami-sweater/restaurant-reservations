@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import { postTable, seatTable } from "../utils/api";
 
-function SubmitTableButton({ table, setTable, setTableError }){
+function SubmitTableButton({ table, setTable, tableChoice, setTableChoice, setTableError }){
     const history = useHistory();
     const location = useLocation();
     const { reservation_id } = useParams();
@@ -34,15 +34,9 @@ function SubmitTableButton({ table, setTable, setTableError }){
     async function updateTable(table_id, reservation_id, newStatus){
         const abortController = new AbortController();
         setTableError(null);
-        setTableError(null);
         try{
             await seatTable(table_id, reservation_id, newStatus, abortController.signal);
-            setTable({
-                table_id: null,
-                table_name: "",
-                capacity: 0,
-                reservation_id: null
-            });
+            setTableChoice({table_id: null});
             history.push(`/dashboard`);
         } catch(error) {
             setTableError(error);
@@ -62,8 +56,9 @@ function SubmitTableButton({ table, setTable, setTableError }){
             createTable(newTable);
         } else {
             //PUT - Update Table behavior
-            const table_id = table.table_id;
+            const table_id = tableChoice.table_id;
             const newStatus = "seated";
+            console.log(table_id, reservation_id, newStatus);
             updateTable(table_id, reservation_id, newStatus);
         };
     };

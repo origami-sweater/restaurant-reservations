@@ -1,7 +1,7 @@
 import React from "react";
 import FinishButton from "./FinishButton";
 
-function FormatTable({ table, setTables, setReservationsError, tableError, reservationsError, setTableError, setTablesError }){
+function FormatTable({ table, setTables, setTableError }){
   const { table_id, table_name, capacity, reservation_id } = table;
   let status = "Occupied";
   if(reservation_id === null) status = "Free";
@@ -15,11 +15,7 @@ function FormatTable({ table, setTables, setReservationsError, tableError, reser
         <FinishButton 
             table={table} 
             setTables={setTables} 
-            setReservationsError={setReservationsError}
             setTableError={setTableError} 
-            setTablesError={setTablesError}
-            tableError={tableError}
-            reservationsError={reservationsError}
         />}
   </tr>
   );

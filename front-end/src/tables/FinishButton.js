@@ -2,26 +2,22 @@ import React from "react";
 import { useHistory } from "react-router";
 import { unseatTable, listTables, updateStatus } from "../utils/api";
 
-function FinishButton({ table, setTables, setTableError, setTablesError, setReservationsError, tableError, reservationsError }){
+function FinishButton({ table, setTables, setTableError }){
     const { table_id, reservation_id } = table;
     const history = useHistory();
 
-    function endReservation(reservation_id, table_id, tableError, reservationsError){
+    async function endReservation(reservation_id, table_id){
         const abortController = new AbortController();
         const newStatus = "finished"
         setTableError(null);
-        setTablesError(null);
-        unseatTable(table_id, abortController.signal)
-            .catch(setTableError);
-        if(tableError === null){
-            updateStatus(newStatus, reservation_id, abortController.signal)
-                .catch(setReservationsError);
-        };
-        if(tableError === null && reservationsError === null){
-            listTables(abortController.signal)
-                .then(setTables)
-                .then(() => history.go(0))
-                .catch(setTablesError);
+        try{
+            await updateStatus(newStatus, reservation_id, abortController.signal);
+            await unseatTable(table_id, abortController.signal);
+            const refreshTables = await listTables(abortController.signal);
+            setTables(refreshTables);
+            history.go(0);
+        } catch(error) {
+            setTableError(error);
         };
         return () => abortController.abort();
     };
@@ -29,7 +25,7 @@ function FinishButton({ table, setTables, setTableError, setTablesError, setRese
     const onFinish = (event) => {
         event.preventDefault();
         if(window.confirm("Is the table ready to seat new guests? This cannot be undone.") === true){
-            endReservation(reservation_id, table_id, tableError, reservationsError);
+            endReservation(reservation_id, table_id);
         };
     };
 

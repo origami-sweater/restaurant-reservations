@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { listTables, readReservation } from "../utils/api";
 import CancelButton from "../utils/CancelButton";
@@ -7,8 +7,6 @@ import FormatReservation from "../reservations/FormatReservation";
 import ErrorAlert from "../layout/ErrorAlert";
 
 function SeatReservation({ 
-    table, 
-    setTable, 
     tableError, 
     setTableError, 
     reservation, 
@@ -21,6 +19,7 @@ function SeatReservation({
     setResError
  }){
     const { reservation_id } = useParams();
+    const [tableChoice, setTableChoice] = useState({table_id: null});
 
     useEffect(loadSeats, [reservation_id, setResError, setReservation, setTables, setTablesError]);
 
@@ -59,12 +58,7 @@ function SeatReservation({
     });
 
     const onTableSelect = ({ target }) =>{
-        setTable({
-            table_id: target.value,
-            table_name: "",
-            capacity: 0,
-            reservation_id: null
-        });
+        setTableChoice({table_id: target.value});
     };
 
     return(
@@ -85,8 +79,8 @@ function SeatReservation({
                 {tableOptions}
             </select>
             <SubmitTableButton 
-                table={table}
-                setTable={setTable}
+                tableChoice={tableChoice}
+                setTableChoice={setTableChoice}
                 setTableError={setTableError} 
                 setResError={setResError} 
             />

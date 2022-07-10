@@ -79,10 +79,7 @@ function Dashboard({
         key={table.table_id}
         table={table} 
         setTables={setTables} 
-        tableError={tableError}
-        reservationsError={reservationsError}
         setTableError={setTableError} 
-        setTablesError={setTablesError}
         setReservationsError={setReservationsError}
       />;
   });

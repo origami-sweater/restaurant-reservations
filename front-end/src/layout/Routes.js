@@ -67,8 +67,6 @@ function Routes() {
       </Route>
       <Route exact={true} path="/reservations/:reservation_id/seat">
         <SeatReservation 
-          table={table}
-          setTable={setTable}
           tableError={tableError}
           setTableError={setTableError}
           reservation={reservation}
