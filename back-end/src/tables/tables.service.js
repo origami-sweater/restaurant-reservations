@@ -19,6 +19,7 @@ function create(newTable){
 //Read
 function read(table_id){
     return knex(tableName)
+        .select("*")
         .where({ table_id })
         .first();
 }
