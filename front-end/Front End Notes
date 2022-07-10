@@ -1,5 +1,5 @@
 /*Only ever be a max number of tables, and the tables table would ahve to connect to the reservations table...maybe a join table?
-
+Seated things aren't showing on dashboard.
 npm run start:dev
 
 Date problem - 2=tues

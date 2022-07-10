@@ -6,7 +6,6 @@ function listByDate(reservation_date){
     return knex(tableName)
         .select("*")
         .where({ reservation_date })
-        .where({"status": "booked"})
         .orderBy("reservation_time")
 }
 

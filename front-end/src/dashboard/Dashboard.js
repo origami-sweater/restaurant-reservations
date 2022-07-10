@@ -58,7 +58,7 @@ function Dashboard({
   //functions formatting displayed content
   const showReservations = reservations.map((reservation) => {
     const { first_name, last_name, people, reservation_id, status, reservation_time } = reservation;
-    if(status === "finished"){
+    if(status === "finished" || status === "cancelled"){
       return null;
     } else {
       return <FormatReservation 

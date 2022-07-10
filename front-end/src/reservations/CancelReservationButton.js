@@ -5,11 +5,14 @@ import { updateStatus } from "../utils/api";
 function CancelReservationButton({ reservation_id, setResError }){
     const history = useHistory();
 
-    function cancelReservation(reservation_id, newStatus){
+    async function cancelReservation(reservation_id, newStatus){
         const abortController = new AbortController();
         setResError(null);
-        updateStatus(reservation_id, newStatus, abortController.signal)
-            .catch(setResError);
+        try{
+            await updateStatus(reservation_id, newStatus, abortController.signal);
+        } catch(error) {
+            setResError(error);
+        };
         return () => abortController.abort();
     };
 
