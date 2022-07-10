@@ -10,7 +10,7 @@ function CancelReservationButton({ reservation_id, setResError }){
         setResError(null);
         try{
             await updateStatus(reservation_id, newStatus, abortController.signal);
-            history.go(0)
+            history.go(0);
         } catch(error) {
             setResError(error);
         };

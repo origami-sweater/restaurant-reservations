@@ -29,7 +29,7 @@ function CancelButton({ setReservation, reservation, table, setTable }) {
     }
 
     return (
-        <button type="cancel" className="btn btn-primary ml-2" onClick={handleCancel}>Cancel</button>
+        <button type="cancel" className="btn btn-danger ml-2 mt-1" onClick={handleCancel}>Cancel</button>
     );
 }
 

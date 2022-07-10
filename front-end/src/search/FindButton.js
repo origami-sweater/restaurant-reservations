@@ -23,7 +23,7 @@ function FindButton({ searchFor, setSearchList, setSearchError, setSearchFor }){
 
     return(
         <>
-            <button type="submit" className="btn btn-primary ml-2" onClick={onFind}>Find</button>
+            <button type="submit" className="btn btn-outline-secondary" id="find_button" onClick={onFind}>Find</button>
         </>
     );
 }

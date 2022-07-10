@@ -28,19 +28,22 @@ function Search(){
 
     return(
         <>
+            <h2 className="ml-1">Search</h2>
             {searchError !== "No reservations found." && <ErrorAlert error={searchError}/>}
-            <h4>Search</h4>
-            <label htmlFor="search_mobile_number">
+            <label htmlFor="search_mobile_number" className="input-group flex-nowrap mt-2">
                 <input 
                     name="mobile_number"
                     type="text" 
+                    className="form-control"
+                    aria-label="mobile_number" 
+                    aria-describedby="find_button"
                     placeholder="Enter a customer's phone number"
                     onChange={({target}) => setSearchFor({mobile_number: target.value})}
                 />
                 <FindButton searchFor={searchFor} setSearchFor={setSearchFor} setSearchList={setSearchList} setSearchError={setSearchError}/>
             </label>
             {searchList.length > 0 && matchingReservations}
-            {searchList.length === 0 && <p>{noReservationsMessage}</p>}
+            {searchList.length === 0 && <p className="ml-1">{noReservationsMessage}</p>}
         </>
     );
 }

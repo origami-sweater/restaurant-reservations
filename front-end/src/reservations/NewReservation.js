@@ -6,7 +6,10 @@ function NewReservation({ reservation, setReservation, resError, setResError }){
 
     return(
         <>
-            <h2>Submit New Reservation:</h2>
+            <h2>New Reservation</h2>
+            <div className="d-md-flex mb-3">
+                <p className="mb-0">Please enter the reservation information.</p>
+            </div>
             <ErrorAlert error={resError} />
             <ReservationForm reservation={reservation} resError={resError} setReservation={setReservation} setResError={setResError} />
         </>
