@@ -27,15 +27,18 @@ Create a new reservation by clicking `New Reservation` in the navigation menu. E
 - Reservation Time
 - Party Size
 Every reservation created is given a default status of "booked." Statuses are managed as the reservation is processed in the system, and are not directly editable.
+![image](https://user-images.githubusercontent.com/92411694/178296696-97f68981-405e-4a57-bb10-f7a388daf061.png)
 
 ### New Table
 Add a table to seat reservations at by clicking `New Table` in the navigation menu. To help identify the restaurant table and limit seating options to tables that suit the party size, every table entry must include the following data:
 - Table Name (Must be at least 2 characters)
 - Capacity
 Upon submission, the new table will populate as a seating option on the dashboard.
+![image](https://user-images.githubusercontent.com/92411694/178296801-e900bdd9-e571-46e2-95be-233b1692272a.png)
 
 ### Manage Reservations - Dashboard
 The home page for Periodic Tables is the dashboard, but it can alse be selected by clicking `Dashboard` from the navigation menu. From the dashboard, reservations can be seated, edited, cancelled or completed.
+![image](https://user-images.githubusercontent.com/92411694/178296198-3a3508ea-e4e4-457d-9b6f-6c8d702c2a1d.png)
 
 #### Date Display
 The dashboard defaults to reservations scheduled for the current day, but future and past dates can also be viewed using the `Previous Day` and `Next Day` buttons. If the dashboard is displaying a future or past date and the user wants to return to today's view, they can use the `Today` button or click `Dashboard` from the navigation menu again.
@@ -46,10 +49,12 @@ Beneath the date buttons, all active reservations for the chosen day are listed.
 - Reservation time
 - Party size
 - Current status
-- `Edit` button - Redirects to an edit page that allows the user to change the reservation information
 - `Cancel` button - Prompts the user to confirm cancellation of the reservation
+- `Edit` button - Redirects to an edit page that allows the user to change the reservation information
+![image](https://user-images.githubusercontent.com/92411694/178296461-196767c3-289c-42f0-b127-e528393c7216.png)
 
 Reservations that have not been seated yet will also display a `Seat` button. When clicked, the user will be redirected to a page that displays the reservation information and all existing tables. Tables that are occupied or with too small a capacity for the party will not be selectable.
+![image](https://user-images.githubusercontent.com/92411694/178296058-0aea1038-47d6-433e-a1d9-ff0adf1bd13c.png)
 
 #### Tables Display
 Beneath the listed reservations, all existing tables are displayed with the following information:
@@ -60,6 +65,7 @@ Beneath the listed reservations, all existing tables are displayed with the foll
 
 ### Search
 If the user needs to look up a reservation to confirm details, edit or cancel it, they can click the `Search` option from the navigation menu. By entering the phone number, or part of the phone number, associated with the reservation and clicking `Find`, all reservations matching the criteria will populate. Upon locating the reservation, the `Edit` and `Cancel` buttons will allow the user to make the requested changes.
+![image](https://user-images.githubusercontent.com/92411694/178296610-f77c5961-4ce0-41b9-b67b-708b3cc0970c.png)
 
 ## API
 ### Reservation 
