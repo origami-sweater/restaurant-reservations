@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReservationForm from "./ReservationForm";
 import ErrorAlert from "../layout/ErrorAlert";
 
 function NewReservation({ reservation, setReservation, resError, setResError }){
+    useEffect(() =>{
+        setReservation({
+            first_name: "",
+            last_name: "",
+            mobile_number: "",
+            reservation_date: "",
+            reservation_time: "",
+            people: 0,
+            status: ""
+        });
+    }, [setReservation]);
 
     return(
         <>

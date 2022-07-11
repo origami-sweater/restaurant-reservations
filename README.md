@@ -3,25 +3,129 @@
 
 ## General Information
 
+Periodic Tables manages the scheduling and processing of a restaurant's reservations. Users may add, modify or cancel a reservation. Each reservation records key information such as name, phone, party size, date and time, and ensures that those dates and times fall within operating hours of the restaurant. A restaurant's tables can also be added to Periodic Tables to track the seating of reservations. From the dashboard, users can see all pending reservations for a given date and seat them at an open table. When the party leaves, the user can complete the reservation using the finish button, removing the reservation from the dashboard.
+
+## Technologies
+### Front-end
+- React.js
+- CSS
+- Bootstrap
+- JSX
+### Back-end
+- Knex.js
+- Node JS
+- PostgresSQL
+- Express.js
+
+## Features
+### New Reservations
+Create a new reservation by clicking `New Reservation` in the navigation menu. Each reservation must be for a future date/time, fall within the restaurant's hours of operation and include the following data:
+- First Name
+- Last Name
+- Phone Number
+- Reservation Date
+- Reservation Time
+- Party Size
+Every reservation created is given a default status of "booked." Statuses are managed as the reservation is processed in the system, and are not directly editable.
+
+### New Table
+Add a table to seat reservations at by clicking `New Table` in the navigation menu. To help identify the restaurant table and limit seating options to tables that suit the party size, every table entry must include the following data:
+- Table Name (Must be at least 2 characters)
+- Capacity
+Upon submission, the new table will populate as a seating option on the dashboard.
+
+### Manage Reservations - Dashboard
+The home page for Periodic Tables is the dashboard, but it can alse be selected by clicking `Dashboard` from the navigation menu. From the dashboard, reservations can be seated, edited, cancelled or completed.
+
+#### Date Display
+The dashboard defaults to reservations scheduled for the current day, but future and past dates can also be viewed using the `Previous Day` and `Next Day` buttons. If the dashboard is displaying a future or past date and the user wants to return to today's view, they can use the `Today` button or click `Dashboard` from the navigation menu again.
+
+#### Reservations Display
+Beneath the date buttons, all active reservations for the chosen day are listed. Finished or cancelled reservations will not populate. The reservation will display:
+- Name of person who placed the reservation
+- Reservation time
+- Party size
+- Current status
+- `Edit` button - Redirects to an edit page that allows the user to change the reservation information
+- `Cancel` button - Prompts the user to confirm cancellation of the reservation
+
+Reservations that have not been seated yet will also display a `Seat` button. When clicked, the user will be redirected to a page that displays the reservation information and all existing tables. Tables that are occupied or with too small a capacity for the party will not be selectable.
+
+#### Tables Display
+Beneath the listed reservations, all existing tables are displayed with the following information:
+- Table Name
+- Status ("Free" or "Occupied")
+- Capacity
+- Finish Reservation? - `Finish` button populates for "Occupied" tables. When clicked, the associated reservation will be completed.
+
+### Search
+If the user needs to look up a reservation to confirm details, edit or cancel it, they can click the `Search` option from the navigation menu. By entering the phone number, or part of the phone number, associated with the reservation and clicking `Find`, all reservations matching the criteria will populate. Upon locating the reservation, the `Edit` and `Cancel` buttons will allow the user to make the requested changes.
+
+## API
+### Reservation 
+`/reservations`
+- GET - Returns all reservations without the status of finished or cancelled.
+- POST - Adds a new reservation to the system.
+    Required body:
+    |Params             |Type       |
+    |-------------------|-----------|
+    |`first_name`       |`string`   |
+    |`last_name`        |`string`   |
+    |`mobile_number`    |`string`   |
+    |`people`           |`integer`  |
+    |`reservation_date` |`date`     |
+    |`reservation_time` |`time`     |
+    |`status`           |`string`   |
 
 
-## Existing files
 
-This repository is set up as a *monorepo*, meaning that the frontend and backend projects are in one repository. This allows you to open both projects in the same editor.
+### Reservation by ID
+`/reservations/:reservation_id`
+Required Param: `reservation_id`
+- GET - Returns reservation with matching reservation_id
+- PUT - Updates reservation with matching reservation_id
+    Required body:
+    |Params             |Type       |
+    |-------------------|-----------|
+    |`first_name`       |`string`   |
+    |`last_name`        |`string`   |
+    |`mobile_number`    |`string`   |
+    |`people`           |`integer`  |
+    |`reservation_date` |`date`     |
+    |`reservation_time` |`time`     |
+    |`status`           |`string`   |
 
-As you work through the user stories listed later in this document, you will be writing code that allows your frontend and backend applications to talk to each other. You will also write code to allow your controllers and services to connect to, and query, your PostgreSQL database via [Knex](http://knexjs.org/).
 
-The table below describes the folders in this starter repository:
+### Get Reservation Status
+`/reservations/:reservation_id/status`
+Required Param: `reservation_id`
+- PUT - updates reservation with a status of "seated", "cancelled", or "finished"
+    Required body:
+    |Params             |Type       |
+    |-------------------|-----------|
+    |`status`           |`string`   |
 
-| Folder/file path | Description                                                      |
-| ---------------- | ---------------------------------------------------------------- |
-| `./back-end`     | The backend project, which runs on `localhost:5001` by default.  |
-| `./front-end`    | The frontend project, which runs on `localhost:3000` by default. |
+### Table
+`/tables`
+- GET - Returns all tables in the system.
+- POST - Adds a new table to the system.
+    Required body:
+    |Params             |Type       |
+    |-------------------|-----------|
+    |`table_name`       |`string`   |
+    |`capacity`         |`integer`  |
 
-This starter code closely follows the best practices and patterns established in the Robust Server Structure module.
+### Table by ID
+`/tables/:table_id`
+Required params: `table_id`
+- PUT - updates the `reservation_id` associated with the table
+    Required body:
+    |Params             |Type       |
+    |-------------------|-----------|
+    |`reservation_id`   |`integer`  |
+    |`status        `   |`string`   |
 
-**Note**: Please do not submit a pull request to this repository with your solution.
-
+- DELETE - replaces `reservation_id` associated with null, and updates `status` of previously connected reservation.
 
 
 ## Installation
@@ -33,60 +137,5 @@ This starter code closely follows the best practices and patterns established in
 1. You should not need to make changes to the `./front-end/.env` file unless you want to connect to a backend at a location other than `http://localhost:5001`.
 1. Run `npm install` to install project dependencies.
 1. Run `npm run start:dev` to start your server in development mode.
-
-If you have trouble getting the server to run, reach out for assistance.
-
-## Running tests
-
-This project has unit, integration, and end-to-end (e2e) tests. You have seen unit and integration tests in previous projects.
-End-to-end tests use browser automation to interact with the application just like the user does.
-Once the tests are passing for a given user story, you have implemented the necessary functionality.
-
-Test are split up by user story. You can run the tests for a given user story by running:
-
-`npm run test:X` where `X` is the user story number.
-
-Have a look at the following examples:
-
-- `npm run test:1` runs all the tests for user story 1 (both frontend and backend).
-- `npm run test:3:backend` runs only the backend tests for user story 3.
-- `npm run test:3:frontend` runs only the frontend tests for user story 3.
-
-Whenever possible, frontend tests will run before backend tests to help you follow outside-in development.
-
-> **Note** When running `npm run test:X` If the frontend tests fail, the tests will stop before running the backend tests. Remember, you can always run `npm run test:X:backend` or `npm run test:X:frontend` to target a specific part of the application.
-
-Since tests take time to run, you might want to consider running only the tests for the user story you're working on at any given time.
-
-Once you have all user stories complete, you can run all the tests using the following commands:
-
-- `npm test` runs _all_ tests.
-- `npm run test:backend` runs _all_ backend tests.
-- `npm run test:frontend` runs _all_ frontend tests.
-- `npm run test:e2e` runs only the end-to-end tests.
-
-If you would like a reminder of which npm scripts are available, run `npm run` to see a list of available commands.
-
-Note that the logging level for the backend is set to `warn` when running tests and `info` otherwise.
-
-> **Note**: After running `npm test`, `npm run test:X`, or `npm run test:e2e` you might see something like the following in the output: `[start:frontend] Assertion failed:`. This is not a failure, it is just the frontend project getting shutdown automatically.
-
-> **Note**: If you are getting a `unable to resolve dependency tree` error when running the frontend tests, run the following command: `npm install --force --prefix front-end`. This will allow you to run the frontend tests.
-
-> **Hint**: If you stop the tests before they finish, it can leave the test database in an unusual state causing the tests to fail unexpectedly the next time you run them. If this happens, delete all tables in the test database, including the `knex_*` tables, and try the tests again.
-
-### Frontend test timeout failure
-
-Running the frontend tests on a resource constrained computer may result in timeout failures.
-
-If you believe your implementation is correct, but needs a bit more time to finish, you can update the `testTimeout` value in `front-end/e2e/jest.config.js`. A value of 10000 or even 12000 will give each test a few more seconds to complete.
-
-#### Screenshots
-
-To help you better understand what might be happening during the end-to-end tests, screenshots are taken at various points in the test.
-
-The screenshots are saved in `front-end/.screenshots` and you can review them after running the end-to-end tests.
-
-You can use the screenshots to debug your code by rendering additional information on the screen.
 
 
