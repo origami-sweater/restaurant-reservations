@@ -10,8 +10,7 @@
   },
   "private": true,
   "engines": {
-    "node": "16",
-    "npm": "6"
+    "node": "16"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
