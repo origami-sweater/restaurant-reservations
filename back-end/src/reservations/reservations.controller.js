@@ -1,6 +1,5 @@
 const service = require("./reservations.service"); 
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const { update } = require("../db/connection");
 
 /**
  * CRUD functions
