@@ -91,6 +91,11 @@ async function determineList(req, res, next){
     const reservations = await service.listIfMobileMatch(req.query.mobile_number);
     res.locals.reservations = reservations;
     return next();
+  } else {
+    next({
+      status: 400,
+      message: "Reservations list needs a query."
+    });
   };
 }
 
