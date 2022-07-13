@@ -59,7 +59,7 @@ function statusIsValid(req, res, next){
 
 function statusIsBooked(req, res, next){
   const { status } = req.body.data;
-  if(status === "finished"|| status === "seated"){
+  if(status === "finished"|| status === "seated" || status === "cancelled"){
     next({
       status: 400,
       message: "Reservations cannot be created with a status of seated or finished."

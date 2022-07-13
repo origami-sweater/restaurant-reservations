@@ -18,9 +18,9 @@ function FormatReservation({ first_name, last_name, people, reservation_id, rese
       <p className="mb-0">Reservation Time: {reservation_time}</p>
       <p className="mb-0">Party Size: {people}</p>
       <p data-reservation-id-status={reservation_id} className="mb-1">Status: {status}</p>
-      {!onSeatPage && <EditReservationButton reservation_id={reservation_id} />}
+      {!onSeatPage && status !== "cancelled" && <EditReservationButton reservation_id={reservation_id} />}
       {!onSeatPage && status === "booked" && <SeatButton reservation_id={reservation_id}/>}
-      {!onSeatPage && <CancelReservationButton reservation_id={reservation_id} setResError={setResError}/>}
+      {!onSeatPage && status !== "cancelled" && <CancelReservationButton reservation_id={reservation_id} setResError={setResError}/>}
   </div>
   );
 }

@@ -39,13 +39,15 @@ function Dashboard({
     };
   }, [setDate, query]);
 
-  useEffect(loadDashboard, [date, setTables, setTablesError])
+  useEffect(loadDashboard, [date, setTables, setTablesError, setTableError, setResError])
 
   //sets dashboard's viewable reservations by date determined from URL
   function loadDashboard(){
     const abortController = new AbortController();
     setReservationsError(null);
     setTablesError(null);
+    setTableError(null);
+    setResError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
