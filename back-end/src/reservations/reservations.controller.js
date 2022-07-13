@@ -169,10 +169,10 @@ function dateIsValid(req, res, next){
 
 //No reservations on Tuesdays - for some reason days of week 6 -sunday, 0 - monday, etc...
 function noTuesdays(req, res, next){
-  const { data: { reservation_date } = {} } = req.body;
-  const reformatDate = new Date(reservation_date);
+  const { data: { reservation_date, reservation_time } = {} } = req.body;
+  const reformatDate = new Date(`${reservation_date} ${reservation_time}`);
   const dayOfWeek = reformatDate.getDay();
-  if(dayOfWeek !== 1){
+  if(dayOfWeek !== 2){
     next();
   } else {
     next({
