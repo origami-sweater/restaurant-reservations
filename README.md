@@ -1,5 +1,5 @@
 # Periodic Tables
-## Deployed Link
+## Deployed Link:  https://klf-periodic-tables-client.herokuapp.com/
 
 ## General Information
 
